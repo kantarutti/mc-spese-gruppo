@@ -73,8 +73,6 @@ class EventoDettaglioScreen extends StatelessWidget {
                       ),
                     ),
                     const Divider(),
-                    _InfoRow(label: 'ID', value: evento.id),
-                    _InfoRow(label: 'Nome', value: evento.nome),
                     _InfoRow(label: 'Tipo', value: evento.tipo),
                     _InfoRow(label: 'Stato', value: evento.stato),
                     _InfoRow(label: 'Valuta', value: evento.valuta),
@@ -84,7 +82,6 @@ class EventoDettaglioScreen extends StatelessWidget {
                     _InfoRow(label: 'Data fine', value: _formatDate(evento.dataFine)),
                     if (evento.localitaId != null)
                       _InfoRow(label: 'Luogo', value: evento.localitaId!),
-                    _InfoRow(label: 'Gruppo ID', value: evento.gruppoId),
                     _InfoRow(label: 'Creato il', value: _formatDate(evento.createdAt)),
                     _InfoRow(label: 'Aggiornato il', value: _formatDate(evento.updatedAt)),
                   ],

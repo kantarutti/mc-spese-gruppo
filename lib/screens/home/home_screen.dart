@@ -130,9 +130,15 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           const SizedBox(height: 8),
                           if (evento.localitaId != null)
-                            Text(
-                              evento.localitaId!,
-                              style: Theme.of(context).textTheme.bodySmall,
+                            Row(
+                              children: [
+                                Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Luogo',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
                             ),
                           const SizedBox(height: 4),
                           Text(
