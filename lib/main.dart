@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'providers/auth_provider.dart';
 import 'providers/supabase_provider.dart';
+import 'screens/auth/login_screen.dart';
 import 'screens/events/event_list_screen.dart';
 
 void main() async {
@@ -109,26 +110,9 @@ class AuthWrapper extends ConsumerWidget {
         if (session != null) {
           return const EventListScreen();
         }
-        // Altrimenti mostra login placeholder
-        return const LoginPlaceholder();
+        // Altrimenti mostra LoginScreen
+        return const LoginScreen();
       },
-    );
-  }
-}
-
-/// Placeholder per Login - da implementare
-class LoginPlaceholder extends StatelessWidget {
-  const LoginPlaceholder({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MC Spese di Gruppo'),
-      ),
-      body: const Center(
-        child: Text('Login Screen (da implementare)'),
-      ),
     );
   }
 }
