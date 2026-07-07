@@ -10,7 +10,7 @@ class ValutaRepository {
   /// Ottiene tutte le valute di un evento
   Future<List<Valuta>> getByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('valuta')
           .select()
           .eq('evento_id', eventoId)
@@ -27,7 +27,7 @@ class ValutaRepository {
   /// Ottiene una valuta per ID
   Future<Valuta?> getById(String id) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('valuta')
           .select()
           .eq('id', id)
@@ -51,8 +51,10 @@ class ValutaRepository {
         'valuta': codice.toUpperCase(),
       };
 
-      final response =
-          await _supabaseService.from('valuta').insert(data).select();
+      final response = await _supabaseService.client
+          .from('valuta')
+          .insert(data)
+          .select();
 
       return Valuta.fromMap(response[0] as Map<String, dynamic>);
     } catch (e) {
@@ -65,7 +67,7 @@ class ValutaRepository {
     try {
       final updates = {'valuta': codice.toUpperCase()};
 
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('valuta')
           .update(updates)
           .eq('id', id)
@@ -80,7 +82,10 @@ class ValutaRepository {
   /// Elimina una valuta
   Future<void> delete(String id) async {
     try {
-      await _supabaseService.from('valuta').delete().eq('id', id);
+      await _supabaseService.client
+          .from('valuta')
+          .delete()
+          .eq('id', id);
     } catch (e) {
       throw ExceptionHandler.handle(e);
     }
@@ -89,7 +94,7 @@ class ValutaRepository {
   /// Ascolta i cambiamenti delle valute in tempo reale
   Stream<List<Valuta>> watchByEventoId(String eventoId) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('valuta')
           .stream(primaryKey: ['id'])
           .eq('evento_id', eventoId)
@@ -105,7 +110,7 @@ class ValutaRepository {
   /// Ottiene il numero totale di valute per evento
   Future<int> countByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('valuta')
           .select('id')
           .eq('evento_id', eventoId);
@@ -119,7 +124,7 @@ class ValutaRepository {
   /// Verifica se una valuta esiste già per l'evento
   Future<bool> codiceEsiste(String eventoId, String codice) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('valuta')
           .select('id')
           .eq('evento_id', eventoId)

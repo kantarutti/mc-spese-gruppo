@@ -10,7 +10,7 @@ class GircontiRepository {
   /// Ottiene tutti i giroconti di un evento
   Future<List<Giroconto>> getByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select()
           .eq('evento_id', eventoId)
@@ -27,7 +27,7 @@ class GircontiRepository {
   /// Ottiene i giroconti da un gruppo
   Future<List<Giroconto>> getByDaGruppoId(String daGruppoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select()
           .eq('da_gruppo_id', daGruppoId)
@@ -44,7 +44,7 @@ class GircontiRepository {
   /// Ottiene i giroconti verso un gruppo
   Future<List<Giroconto>> getByAGruppoId(String aGruppoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select()
           .eq('a_gruppo_id', aGruppoId)
@@ -61,7 +61,7 @@ class GircontiRepository {
   /// Ottiene un giroconto per ID
   Future<Giroconto?> getById(String id) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select()
           .eq('id', id)
@@ -99,8 +99,10 @@ class GircontiRepository {
         'tasso_cambio': tassoCambio,
       };
 
-      final response =
-          await _supabaseService.from('giroconti').insert(data).select();
+      final response = await _supabaseService.client
+          .from('giroconti')
+          .insert(data)
+          .select();
 
       return Giroconto.fromMap(response[0] as Map<String, dynamic>);
     } catch (e) {
@@ -128,7 +130,7 @@ class GircontiRepository {
       if (valutaTarget != null) updates['valuta_target'] = valutaTarget;
       if (tassoCambio != null) updates['tasso_cambio'] = tassoCambio;
 
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .update(updates)
           .eq('id', id)
@@ -143,7 +145,10 @@ class GircontiRepository {
   /// Elimina un giroconto
   Future<void> delete(String id) async {
     try {
-      await _supabaseService.from('giroconti').delete().eq('id', id);
+      await _supabaseService.client
+          .from('giroconti')
+          .delete()
+          .eq('id', id);
     } catch (e) {
       throw ExceptionHandler.handle(e);
     }
@@ -152,7 +157,7 @@ class GircontiRepository {
   /// Ascolta i cambiamenti dei giroconti in tempo reale
   Stream<List<Giroconto>> watchByEventoId(String eventoId) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('giroconti')
           .stream(primaryKey: ['id'])
           .eq('evento_id', eventoId)
@@ -168,7 +173,7 @@ class GircontiRepository {
   /// Ascolta i cambiamenti di un singolo giroconto
   Stream<Giroconto?> watchById(String id) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('giroconti')
           .stream(primaryKey: ['id'])
           .eq('id', id)
@@ -218,7 +223,7 @@ class GircontiRepository {
     DateTime endDate,
   ) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select()
           .eq('evento_id', eventoId)
@@ -237,7 +242,7 @@ class GircontiRepository {
   /// Ottiene il numero totale di giroconti per evento
   Future<int> countByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select('id')
           .eq('evento_id', eventoId);
@@ -255,7 +260,7 @@ class GircontiRepository {
     String aGruppoId,
   ) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('giroconti')
           .select('id')
           .eq('evento_id', eventoId)
