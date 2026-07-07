@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../models/evento.dart';
-import '../providers/eventi_provider.dart';
+import '../../models/evento.dart';
+import '../../providers/eventi_provider.dart';
 
 class EventListScreen extends ConsumerWidget {
   const EventListScreen({super.key});
