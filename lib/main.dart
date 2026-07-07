@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'config/config.dart';
-import 'providers/providers.dart';
-import 'screens/screens.dart';
+import 'providers/auth_provider.dart';
+import 'providers/supabase_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Inizializza Supabase
+  // Inizializza Supabase con le tue credenziali
   await Supabase.initialize(
     url: 'https://cgvpvftfpoxqymqbehzw.supabase.co',
     anonKey: 'sb_publishable_I6XKfOiKxrvyE8XEmMr-jg_Ok948G06',
@@ -23,233 +22,115 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
+
+  static const Color azzurroIntenso = Color(0xFF00B2FF);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MC Spese Gruppo',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
+      title: 'MC Spese di Gruppo',
+      theme: ThemeData(
+        useMaterial3: true,
+        primaryColor: azzurroIntenso,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: azzurroIntenso,
+          primary: azzurroIntenso,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: azzurroIntenso,
+          foregroundColor: Colors.white,
+          centerTitle: true,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.grey[50],
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 16,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(
+              color: azzurroIntenso,
+              width: 2,
+            ),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: azzurroIntenso,
+            foregroundColor: Colors.white,
+            minimumSize: const Size(double.infinity, 55),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+        ),
+      ),
       home: const AuthWrapper(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/register': (context) => const RegisterScreen(),
-        '/home': (context) => const MainScreen(),
-      },
     );
   }
 }
 
 /// Wrapper per gestire l'autenticazione
 class AuthWrapper extends ConsumerWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
+  const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authProvider);
+    final session = ref.watch(authSessionProvider);
 
-    // Se autenticato, mostra MainScreen
-    if (authState.isAuthenticated) {
-      return const MainScreen();
-    }
-
-    // Se non autenticato, mostra LoginScreen
-    return const LoginScreen();
+    return session.when(
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(child: Text('Errore: $error')),
+      ),
+      data: (session) {
+        // Se esiste sessione, mostra home
+        if (session != null) {
+          return const HomePage();
+        }
+        // Altrimenti mostra login (da implementare)
+        return const Scaffold(
+          body: Center(
+            child: Text('Login Screen (da implementare)'),
+          ),
+        );
+      },
+    );
   }
 }
 
-/// Main screen con bottom navigation
-class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const EventiScreen(),
-    const GruppiScreen(),
-    const SpeseScreen(),
-    const ParticipantiScreen(),
-  ];
+/// Home page - Placeholder per ora
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MC Spese Gruppo'),
-        centerTitle: true,
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: const Text('Profilo'),
-                onTap: () {
-                  // Mostra profilo
-                },
-              ),
-              PopupMenuItem(
-                child: const Text('Logout'),
-                onTap: () async {
-                  await ref.read(authProvider.notifier).logout();
-                },
-              ),
-            ],
-          ),
-        ],
+        title: const Text('MC Spese di Gruppo'),
       ),
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Eventi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Gruppi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Spese',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Partecipanti',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Home Screen
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 40),
-          Icon(
-            Icons.groups,
-            size: 80,
-            color: Theme.of(context).primaryColor,
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'Benvenuto!',
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Gestisci le spese di gruppo in modo semplice',
-            style: Theme.of(context).textTheme.bodyLarge,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                _DashboardCard(
-                  icon: Icons.event,
-                  title: 'Eventi',
-                  subtitle: 'Crea e gestisci eventi',
-                ),
-                const SizedBox(height: 16),
-                _DashboardCard(
-                  icon: Icons.groups,
-                  title: 'Gruppi',
-                  subtitle: 'Organizza i partecipanti',
-                ),
-                const SizedBox(height: 16),
-                _DashboardCard(
-                  icon: Icons.receipt,
-                  title: 'Spese',
-                  subtitle: 'Traccia tutte le spese',
-                ),
-                const SizedBox(height: 16),
-                _DashboardCard(
-                  icon: Icons.people,
-                  title: 'Partecipanti',
-                  subtitle: 'Gestisci i partecipanti',
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 40),
-        ],
-      ),
-    );
-  }
-}
-
-class _DashboardCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  const _DashboardCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 48,
-              color: Theme.of(context).primaryColor,
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: const Center(
+        child: Text('Benvenuto! Home Screen (da implementare)'),
       ),
     );
   }
