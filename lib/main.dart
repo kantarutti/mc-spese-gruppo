@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'providers/auth_provider.dart';
 import 'providers/supabase_provider.dart';
+import 'screens/events/event_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,24 +105,20 @@ class AuthWrapper extends ConsumerWidget {
         body: Center(child: Text('Errore: $error')),
       ),
       data: (session) {
-        // Se esiste sessione, mostra home
+        // Se esiste sessione, mostra EventListScreen
         if (session != null) {
-          return const HomePage();
+          return const EventListScreen();
         }
-        // Altrimenti mostra login (da implementare)
-        return const Scaffold(
-          body: Center(
-            child: Text('Login Screen (da implementare)'),
-          ),
-        );
+        // Altrimenti mostra login placeholder
+        return const LoginPlaceholder();
       },
     );
   }
 }
 
-/// Home page - Placeholder per ora
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+/// Placeholder per Login - da implementare
+class LoginPlaceholder extends StatelessWidget {
+  const LoginPlaceholder({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +127,7 @@ class HomePage extends StatelessWidget {
         title: const Text('MC Spese di Gruppo'),
       ),
       body: const Center(
-        child: Text('Benvenuto! Home Screen (da implementare)'),
+        child: Text('Login Screen (da implementare)'),
       ),
     );
   }
