@@ -49,7 +49,7 @@ class EventListScreen extends ConsumerWidget {
               TextField(
                 controller: nomeController,
                 decoration: const InputDecoration(
-                  labelText: 'Nome dell\'evento',
+                  labelText: 'Nome dell\\'evento',
                   hintText: 'es. Weekend a Roma',
                 ),
               ),
@@ -88,10 +88,12 @@ class EventListScreen extends ConsumerWidget {
                 if (nomeController.text.isEmpty) return;
 
                 // Chiama il provider di creazione
-                ref.read(createEventProvider(CreateEventParams(
-                  nome: nomeController.text,
-                  tipoEvento: tipoSelezionato,
-                ))).then((eventoId) {
+                ref.read(createEventProvider(
+                  CreateEventParams(
+                    nome: nomeController.text,
+                    tipoEvento: tipoSelezionato,
+                  ),
+                )).then((eventoId) {
                   Navigator.pop(context);
                   // TODO: Navigare a EventManagePage con l'ID evento creato
                 }).catchError((error) {
