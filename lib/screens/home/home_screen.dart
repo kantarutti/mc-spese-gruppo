@@ -2,21 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/eventi_provider.dart';
+import '../../utils/formatters.dart';
 
 /// Screen Home
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  String _formatDate(DateTime? date) {
-    if (date == null) return 'Data non disponibile';
-    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
-  }
-
   String _formatDateRange(DateTime? dataInizio, DateTime? dataFine) {
     if (dataInizio == null && dataFine == null) return 'Data non disponibile';
 
-    final inizio = dataInizio != null ? _formatDate(dataInizio) : '';
-    final fine = dataFine != null ? _formatDate(dataFine) : '';
+    final inizio = dataInizio != null ? DateFormatter.format(dataInizio) : '';
+    final fine = dataFine != null ? DateFormatter.format(dataFine) : '';
 
     if (inizio == fine || dataFine == null) {
       return inizio;
@@ -109,11 +105,10 @@ class HomeScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 8),
-                              if (evento.localitaId != null)
-                                Text(
-                                  evento.localitaId!,
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
+                              Text(
+                                'Luogo: ${evento.localitaId ?? 'non disponibile'}',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
                               const SizedBox(height: 4),
                               Text(
                                 dataFormattata,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/evento.dart';
+import '../../utils/formatters.dart';
 
 class EventoDettaglioScreen extends StatelessWidget {
   final Evento evento;
@@ -10,9 +11,9 @@ class EventoDettaglioScreen extends StatelessWidget {
     required this.evento,
   }) : super(key: key);
 
-  String _formatDate(DateTime? date) {
+  String _safeFormatDate(DateTime? date) {
     if (date == null) return '-';
-    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+    return DateFormatter.format(date);
   }
 
   @override
@@ -32,10 +33,13 @@ class EventoDettaglioScreen extends StatelessWidget {
           _DetailItem(label: 'Gruppo ID', value: evento.gruppoId),
           _DetailItem(label: 'Località ID', value: evento.localitaId ?? '-'),
           _DetailItem(label: 'Valuta', value: evento.valuta),
-          _DetailItem(label: 'Data inizio', value: _formatDate(evento.dataInizio)),
-          _DetailItem(label: 'Data fine', value: _formatDate(evento.dataFine)),
-          _DetailItem(label: 'Creato il', value: _formatDate(evento.createdAt)),
-          _DetailItem(label: 'Aggiornato il', value: _formatDate(evento.updatedAt)),
+          _DetailItem(label: 'Data inizio', value: _safeFormatDate(evento.dataInizio)),
+          _DetailItem(
+            label: 'Data fine',
+            value: _safeFormatDate(evento.dataFine),
+          ),
+          _DetailItem(label: 'Creato il', value: _safeFormatDate(evento.createdAt)),
+          _DetailItem(label: 'Aggiornato il', value: _safeFormatDate(evento.updatedAt)),
         ],
       ),
     );
