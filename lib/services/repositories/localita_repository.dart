@@ -10,7 +10,7 @@ class LocalitaRepository {
   /// Ottiene tutte le località di un evento
   Future<List<Localita>> getByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('localita')
           .select()
           .eq('evento_id', eventoId)
@@ -27,7 +27,7 @@ class LocalitaRepository {
   /// Ottiene una località per ID
   Future<Localita?> getById(String id) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('localita')
           .select()
           .eq('id', id)
@@ -51,8 +51,10 @@ class LocalitaRepository {
         'localita': nome,
       };
 
-      final response =
-          await _supabaseService.from('localita').insert(data).select();
+      final response = await _supabaseService.client
+          .from('localita')
+          .insert(data)
+          .select();
 
       return Localita.fromMap(response[0] as Map<String, dynamic>);
     } catch (e) {
@@ -65,7 +67,7 @@ class LocalitaRepository {
     try {
       final updates = {'localita': nome};
 
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('localita')
           .update(updates)
           .eq('id', id)
@@ -80,7 +82,10 @@ class LocalitaRepository {
   /// Elimina una località
   Future<void> delete(String id) async {
     try {
-      await _supabaseService.from('localita').delete().eq('id', id);
+      await _supabaseService.client
+          .from('localita')
+          .delete()
+          .eq('id', id);
     } catch (e) {
       throw ExceptionHandler.handle(e);
     }
@@ -89,7 +94,7 @@ class LocalitaRepository {
   /// Ascolta i cambiamenti delle località in tempo reale
   Stream<List<Localita>> watchByEventoId(String eventoId) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('localita')
           .stream(primaryKey: ['id'])
           .eq('evento_id', eventoId)
@@ -105,7 +110,7 @@ class LocalitaRepository {
   /// Ottiene il numero totale di località per evento
   Future<int> countByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('localita')
           .select('id')
           .eq('evento_id', eventoId);
@@ -119,7 +124,7 @@ class LocalitaRepository {
   /// Verifica se una località esiste già per l'evento
   Future<bool> nomeEsiste(String eventoId, String nome) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('localita')
           .select('id')
           .eq('evento_id', eventoId)

@@ -10,7 +10,7 @@ class PartecipantiRepository {
   /// Ottiene tutti i partecipanti di un evento
   Future<List<Partecipante>> getByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select()
           .eq('evento_id', eventoId)
@@ -27,7 +27,7 @@ class PartecipantiRepository {
   /// Ottiene tutti i partecipanti di un gruppo
   Future<List<Partecipante>> getByGruppoId(String gruppoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select()
           .eq('gruppo_id', gruppoId)
@@ -44,7 +44,7 @@ class PartecipantiRepository {
   /// Ottiene un partecipante per ID
   Future<Partecipante?> getById(String id) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select()
           .eq('id', id)
@@ -70,7 +70,7 @@ class PartecipantiRepository {
         'gruppo_id': gruppoId,
       };
 
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .insert(data)
           .select();
@@ -93,7 +93,7 @@ class PartecipantiRepository {
       if (cellulare != null) updates['cellulare'] = cellulare;
       if (gruppoId != null) updates['gruppo_id'] = gruppoId;
 
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .update(updates)
           .eq('id', id)
@@ -108,7 +108,10 @@ class PartecipantiRepository {
   /// Elimina un partecipante
   Future<void> delete(String id) async {
     try {
-      await _supabaseService.from('partecipanti').delete().eq('id', id);
+      await _supabaseService.client
+          .from('partecipanti')
+          .delete()
+          .eq('id', id);
     } catch (e) {
       throw ExceptionHandler.handle(e);
     }
@@ -117,7 +120,7 @@ class PartecipantiRepository {
   /// Ascolta i cambiamenti dei partecipanti in tempo reale
   Stream<List<Partecipante>> watchByEventoId(String eventoId) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('partecipanti')
           .stream(primaryKey: ['id'])
           .eq('evento_id', eventoId)
@@ -133,7 +136,7 @@ class PartecipantiRepository {
   /// Ascolta i cambiamenti di un singolo partecipante
   Stream<Partecipante?> watchById(String id) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('partecipanti')
           .stream(primaryKey: ['id'])
           .eq('id', id)
@@ -149,7 +152,7 @@ class PartecipantiRepository {
   /// Ottiene il numero totale di partecipanti per evento
   Future<int> countByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select('id')
           .eq('evento_id', eventoId);
@@ -163,7 +166,7 @@ class PartecipantiRepository {
   /// Ottiene il numero totale di partecipanti per gruppo
   Future<int> countByGruppoId(String gruppoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select('id')
           .eq('gruppo_id', gruppoId);
@@ -180,7 +183,7 @@ class PartecipantiRepository {
     String cellulare,
   ) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select('id')
           .eq('gruppo_id', gruppoId)
@@ -199,7 +202,7 @@ class PartecipantiRepository {
     String cellulare,
   ) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select('id')
           .eq('evento_id', eventoId)
@@ -215,7 +218,7 @@ class PartecipantiRepository {
   /// Ottiene un partecipante per cellulare
   Future<Partecipante?> getBycellulare(String cellulare) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('partecipanti')
           .select()
           .eq('cellulare', cellulare)

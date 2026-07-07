@@ -10,7 +10,7 @@ class SpeseRepository {
   /// Ottiene tutte le spese di un evento
   Future<List<Spesa>> getByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select()
           .eq('evento_id', eventoId)
@@ -27,7 +27,7 @@ class SpeseRepository {
   /// Ottiene tutte le spese di un gruppo
   Future<List<Spesa>> getByGruppoId(String gruppoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select()
           .eq('gruppo_id', gruppoId)
@@ -44,7 +44,7 @@ class SpeseRepository {
   /// Ottiene una spesa per ID
   Future<Spesa?> getById(String id) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select()
           .eq('id', id)
@@ -86,8 +86,10 @@ class SpeseRepository {
         'tasso_cambio': tassoCambio,
       };
 
-      final response =
-          await _supabaseService.from('spese').insert(data_map).select();
+      final response = await _supabaseService.client
+          .from('spese')
+          .insert(data_map)
+          .select();
 
       return Spesa.fromMap(response[0] as Map<String, dynamic>);
     } catch (e) {
@@ -121,7 +123,7 @@ class SpeseRepository {
       if (valutaTarget != null) updates['valuta_target'] = valutaTarget;
       if (tassoCambio != null) updates['tasso_cambio'] = tassoCambio;
 
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .update(updates)
           .eq('id', id)
@@ -136,7 +138,10 @@ class SpeseRepository {
   /// Elimina una spesa
   Future<void> delete(String id) async {
     try {
-      await _supabaseService.from('spese').delete().eq('id', id);
+      await _supabaseService.client
+          .from('spese')
+          .delete()
+          .eq('id', id);
     } catch (e) {
       throw ExceptionHandler.handle(e);
     }
@@ -145,7 +150,7 @@ class SpeseRepository {
   /// Ascolta i cambiamenti delle spese in tempo reale
   Stream<List<Spesa>> watchByEventoId(String eventoId) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('spese')
           .stream(primaryKey: ['id'])
           .eq('evento_id', eventoId)
@@ -161,7 +166,7 @@ class SpeseRepository {
   /// Ascolta i cambiamenti di una singola spesa
   Stream<Spesa?> watchById(String id) {
     try {
-      return _supabaseService
+      return _supabaseService.client
           .from('spese')
           .stream(primaryKey: ['id'])
           .eq('id', id)
@@ -197,7 +202,7 @@ class SpeseRepository {
   /// Ottiene le spese per tipologia
   Future<List<Spesa>> getByTipologia(String eventoId, String tipologia) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select()
           .eq('evento_id', eventoId)
@@ -215,7 +220,7 @@ class SpeseRepository {
   /// Ottiene le spese per località
   Future<List<Spesa>> getByLocalita(String eventoId, String localita) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select()
           .eq('evento_id', eventoId)
@@ -237,7 +242,7 @@ class SpeseRepository {
     DateTime endDate,
   ) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select()
           .eq('evento_id', eventoId)
@@ -256,7 +261,7 @@ class SpeseRepository {
   /// Ottiene il numero totale di spese per evento
   Future<int> countByEventoId(String eventoId) async {
     try {
-      final response = await _supabaseService
+      final response = await _supabaseService.client
           .from('spese')
           .select('id')
           .eq('evento_id', eventoId);
