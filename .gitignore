@@ -1,0 +1,38 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+*.apk
+*.ipa
+*.app
+*.dill
+.env
+.env.local
+
+# Generated files
+*.g.dart
+*.config.dart
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Node (se usi Firebase)
+node_modules/
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Pubspec lock (opzionale)
+pubspec.lock

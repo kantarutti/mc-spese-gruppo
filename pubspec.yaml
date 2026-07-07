@@ -1,0 +1,42 @@
+name: mc_spese_gruppo
+description: "App per la gestione delle spese di gruppo con conguagli e statistiche."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Database Cloud e Auth
+  supabase_flutter: ^2.5.0
+  
+  # Gestione dello Stato
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.4
+
+  # Networking (Necessario per il cambio valuta live)
+  http: ^1.1.0
+
+  # Grafici e UI
+  fl_chart: ^0.67.0
+  font_awesome_flutter: ^10.7.0
+  intl: ^0.19.0
+  animations: ^2.0.1
+  google_fonts: ^6.2.1
+
+  # UUID per generare ID univoci
+  uuid: ^4.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.9
+  riverpod_generator: ^2.3.11
+
+flutter:
+  uses-material-design: true
