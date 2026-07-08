@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/evento.dart';
 import '../../providers/eventi_provider.dart';
+import 'event_manage_page.dart';
 
 class EventListScreen extends ConsumerWidget {
   const EventListScreen({super.key});
@@ -143,7 +144,7 @@ class EventListScreen extends ConsumerWidget {
 
                 try {
                   // Chiama il provider di creazione
-                  final result = await ref.read(
+                  final eventoId = await ref.read(
                     createEventProvider(
                       CreateEventParams(
                         nome: nomeController.text,
@@ -154,7 +155,16 @@ class EventListScreen extends ConsumerWidget {
 
                   if (context.mounted) {
                     Navigator.pop(context);
-                    // TODO: Navigare a EventManagePage con l'ID evento creato
+                    // Naviga a EventManagePage con l'ID evento creato
+                    if (eventoId != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EventManagePage(eventoId: eventoId),
+                        ),
+                      );
+                    }
                   }
                 } catch (e) {
                   if (context.mounted) {
@@ -235,7 +245,14 @@ class EventListScreen extends ConsumerWidget {
                   ),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: Navigare a EventViewPage
+                    // Naviga a EventManagePage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EventManagePage(eventoId: ev.id),
+                      ),
+                    );
                   },
                 ),
               );
