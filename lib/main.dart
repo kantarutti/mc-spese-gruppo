@@ -14,7 +14,16 @@ void main() async {
   await Supabase.initialize(
     url: 'https://cgvpvftfpoxqymqbehzw.supabase.co',
     anonKey: 'sb_publishable_I6XKfOiKxrvyE8XEmMr-jg_Ok948G06',
+    authCallbackUrlScheme: 'com.example.spese_gruppo',
   );
+
+  // Configura il listener per il refresh token
+  Supabase.instance.client.auth.onAuthStateChange.listen((event) {
+    if (event.session != null) {
+      // Token refreshato, sessione valida
+      debugPrint('✅ Sessione attiva: ${event.session!.user.email}');
+    }
+  });
 
   runApp(
     const ProviderScope(
