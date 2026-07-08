@@ -82,23 +82,31 @@ class EventListScreen extends ConsumerWidget {
               child: const Text('ANNULLA'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (nomeController.text.isEmpty) return;
 
-                // Chiama il provider di creazione
-                ref.read(createEventProvider(
-                  CreateEventParams(
-                    nome: nomeController.text,
-                    tipoEvento: tipoSelezionato,
-                  ),
-                )).then((eventoId) {
-                  Navigator.pop(context);
-                  // TODO: Navigare a EventManagePage con l'ID evento creato
-                }).catchError((error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Errore: $error')),
+                try {
+                  // Chiama il provider di creazione
+                  final result = await ref.read(
+                    createEventProvider(
+                      CreateEventParams(
+                        nome: nomeController.text,
+                        tipoEvento: tipoSelezionato,
+                      ),
+                    ).future,
                   );
-                });
+
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                    // TODO: Navigare a EventManagePage con l'ID evento creato
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Errore: $e')),
+                    );
+                  }
+                }
               },
               child: const Text('CREA', style: TextStyle(color: Colors.white)),
             ),
