@@ -43,40 +43,38 @@ class EventListScreen extends ConsumerWidget {
             'Nuovo Evento',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nomeController,
-                decoration: const InputDecoration(
-                  labelText: 'Nome dell\\'evento',
-                  hintText: 'es. Weekend a Roma',
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nomeController,
+                  decoration: const InputDecoration(
+                    labelText: "Nome dell'evento",
+                    hintText: 'es. Weekend a Roma',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: tipoSelezionato,
-                decoration: const InputDecoration(labelText: 'Tipo di evento'),
-                items: _tipiEvento.keys.map((String tipo) {
-                  return DropdownMenuItem(
-                    value: tipo,
-                    child: Row(
-                      children: [
-                        Icon(_tipiEvento[tipo],
-                            color: azzurroIntenso, size: 20),
-                        const SizedBox(width: 10),
-                        Text(tipo),
-                      ],
-                    ),
-                  );
-                }).toList(),
-                onChanged: (val) {
-                  if (val != null) {
-                    setDialogState(() => tipoSelezionato = val);
-                  }
-                },
-              ),
-            ],
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  value: tipoSelezionato,
+                  decoration: const InputDecoration(labelText: 'Tipo di evento'),
+                  items: const [
+                    DropdownMenuItem(value: 'Viaggio', child: Text('Viaggio')),
+                    DropdownMenuItem(value: 'Gita', child: Text('Gita')),
+                    DropdownMenuItem(value: 'Evento', child: Text('Evento')),
+                    DropdownMenuItem(
+                        value: 'Pranzo - Cena', child: Text('Pranzo - Cena')),
+                    DropdownMenuItem(value: 'Festa', child: Text('Festa')),
+                    DropdownMenuItem(value: 'Regalo', child: Text('Regalo')),
+                  ],
+                  onChanged: (val) {
+                    if (val != null) {
+                      setDialogState(() => tipoSelezionato = val);
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
