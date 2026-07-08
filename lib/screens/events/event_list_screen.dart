@@ -58,14 +58,70 @@ class EventListScreen extends ConsumerWidget {
                 DropdownButtonFormField<String>(
                   value: tipoSelezionato,
                   decoration: const InputDecoration(labelText: 'Tipo di evento'),
-                  items: const [
-                    DropdownMenuItem(value: 'Viaggio', child: Text('Viaggio')),
-                    DropdownMenuItem(value: 'Gita', child: Text('Gita')),
-                    DropdownMenuItem(value: 'Evento', child: Text('Evento')),
+                  items: [
                     DropdownMenuItem(
-                        value: 'Pranzo - Cena', child: Text('Pranzo - Cena')),
-                    DropdownMenuItem(value: 'Festa', child: Text('Festa')),
-                    DropdownMenuItem(value: 'Regalo', child: Text('Regalo')),
+                      value: 'Viaggio',
+                      child: Row(
+                        children: [
+                          Icon(Icons.flight, color: azzurroIntenso, size: 20),
+                          const SizedBox(width: 10),
+                          const Text('Viaggio'),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Gita',
+                      child: Row(
+                        children: [
+                          Icon(Icons.directions_car,
+                              color: azzurroIntenso, size: 20),
+                          const SizedBox(width: 10),
+                          const Text('Gita'),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Evento',
+                      child: Row(
+                        children: [
+                          Icon(Icons.event, color: azzurroIntenso, size: 20),
+                          const SizedBox(width: 10),
+                          const Text('Evento'),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Pranzo - Cena',
+                      child: Row(
+                        children: [
+                          Icon(Icons.restaurant,
+                              color: azzurroIntenso, size: 20),
+                          const SizedBox(width: 10),
+                          const Text('Pranzo - Cena'),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Festa',
+                      child: Row(
+                        children: [
+                          Icon(Icons.celebration,
+                              color: azzurroIntenso, size: 20),
+                          const SizedBox(width: 10),
+                          const Text('Festa'),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Regalo',
+                      child: Row(
+                        children: [
+                          Icon(Icons.redeem, color: azzurroIntenso, size: 20),
+                          const SizedBox(width: 10),
+                          const Text('Regalo'),
+                        ],
+                      ),
+                    ),
                   ],
                   onChanged: (val) {
                     if (val != null) {
