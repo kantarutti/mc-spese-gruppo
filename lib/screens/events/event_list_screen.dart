@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/evento.dart';
 import '../../providers/eventi_provider.dart';
-import 'event_manage_page.dart';
+import 'event_manage_screen.dart';
 
 class EventListScreen extends ConsumerWidget {
   const EventListScreen({super.key});
@@ -155,13 +155,13 @@ class EventListScreen extends ConsumerWidget {
 
                   if (context.mounted) {
                     Navigator.pop(context);
-                    // Naviga a EventManagePage con l'ID evento creato
+                    // Naviga a EventManageScreen con l'ID evento creato
                     if (eventoId != null) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              EventManagePage(eventoId: eventoId),
+                              EventManageScreen(eventoId: eventoId),
                         ),
                       );
                     }
@@ -245,12 +245,12 @@ class EventListScreen extends ConsumerWidget {
                   ),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // Naviga a EventManagePage
+                    // Naviga a EventManageScreen
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            EventManagePage(eventoId: ev.id),
+                            EventManageScreen(eventoId: ev.id),
                       ),
                     );
                   },
