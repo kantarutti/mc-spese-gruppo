@@ -20,10 +20,10 @@ final authSessionProvider = StreamProvider<Session?>((ref) {
       final expiresAt = event.session!.expiresAt;
       if (expiresAt != null) {
         final now = DateTime.now();
-        final difference = expiresAt.difference(now).inSeconds;
+        final secondsUntilExpiry = expiresAt.difference(now).inSeconds;
         
         // Se il token sta per scadere tra meno di 60 secondi, lo rinnova
-        if (difference < 60 && difference > 0) {
+        if (secondsUntilExpiry < 60 && secondsUntilExpiry > 0) {
           supabase.auth.refreshSession();
         }
       }
