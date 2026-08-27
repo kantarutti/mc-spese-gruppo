@@ -1,0 +1,59 @@
+import 'package:flutter/services.dart';
+
+/// 🔵 Forza il maiuscolo
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
+    );
+  }
+}
+
+/// 🔵 Permette solo numeri
+class NumbersOnlyFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final filtered = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    return TextEditingValue(
+      text: filtered,
+      selection: newValue.selection,
+    );
+  }
+}
+
+/// 🔵 Permette solo lettere
+class LettersOnlyFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final filtered = newValue.text.replaceAll(RegExp(r'[^A-Za-z]'), '');
+    return TextEditingValue(
+      text: filtered,
+      selection: newValue.selection,
+    );
+  }
+}
+
+/// 🔵 Valuta ISO (3 lettere)
+class CurrencyValidator {
+  static bool isValid(String value) {
+    return RegExp(r'^[A-Z]{3}$').hasMatch(value);
+  }
+}
+
+/// 🔵 Email valida
+class EmailValidator {
+  static bool isValid(String value) {
+    return RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(value);
+  }
+}

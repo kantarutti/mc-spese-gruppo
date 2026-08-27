@@ -1,0 +1,41 @@
+{
+    "name": "mc_spese_gruppo",
+    "short_name": "Spese di Gruppo",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0A4D8C",
+    "theme_color": "#0A4D8C",
+    "description": "A new Flutter project.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-SDG-192.webp",
+            "sizes": "192x192",
+            "type": "image/webp"
+        },
+        {
+            "src": "icons/Icon-SDG-512.webp",
+            "sizes": "512x512",
+            "type": "image/webp"
+        },
+        {
+            "src": "icons/Icon-SDG-maskable-192.webp",
+            "sizes": "192x192",
+            "type": "image/webp",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-SDG-maskable-512.webp",
+            "sizes": "512x512",
+            "type": "image/webp",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-SDG.webp",
+            "sizes": "512x512",
+            "type": "image/webp",
+            "purpose": "any"
+        }
+    ]
+}
