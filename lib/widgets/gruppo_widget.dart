@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/gruppi_service.dart';
+import '../services/gruppo_service.dart';
 
 class DialogModificaGruppo extends StatefulWidget {
   final String gruppoId;
@@ -39,8 +39,8 @@ class _DialogModificaGruppoState extends State<DialogModificaGruppo> {
 
     await _gruppiService.updateGruppo(
       gruppoId: widget.gruppoId,
-      nome: nuovoNome, // ✔ nome corretto
-      numeroPersone: nuovoNumero, // ✔ nome corretto
+      nome: nuovoNome,
+      numeroPersone: nuovoNumero,
     );
 
     if (mounted) Navigator.pop(context);

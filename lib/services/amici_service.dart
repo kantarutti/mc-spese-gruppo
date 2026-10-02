@@ -56,11 +56,10 @@ Future<void> createFriendship({
       'owner_name': friendName,
       'friend_id': ownerId,
       'friend_name': ownerName,
-      'friend_cellulare': supabase.auth.currentUser?.phone ?? '',
+      'friend_cellulare': cellulare,
     });
   }
 }
-
 
   /// 3. Recupera la lista amici dell’utente
   Future<List<Map<String, dynamic>>> getFriends(String ownerId) async {

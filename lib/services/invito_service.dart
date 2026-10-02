@@ -11,7 +11,7 @@ class InvitoService {
   Future<void> inviaInvito({
     required String nomePersona,
     required String cellulare,
-    required String nomeOrganizzatore,
+    required String nomeAmministratore,
     required String nomeEvento,
     required String luogoEvento,
     required String dataInizio,
@@ -35,7 +35,7 @@ class InvitoService {
     // 2️⃣ Genero il messaggio
     final messaggio = buildMessaggioInvito(
       nomePersona: nomePersona,
-      nomeOrganizzatore: nomeOrganizzatore,
+      nomeAmministratore: nomeAmministratore,
       nomeEvento: nomeEvento,
       luogoEvento: luogoEvento,
       dataInizio: dataInizio,
@@ -44,12 +44,12 @@ class InvitoService {
       pin: pin,
     );
 
-    // 3️⃣ Popup anteprima
+    // 3️⃣ Popup Invito
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Anteprima invito"),
+          title: const Text("Invito"),
           content: SingleChildScrollView(
             child: SelectableText(
               messaggio,

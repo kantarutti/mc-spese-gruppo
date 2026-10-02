@@ -22,7 +22,7 @@ class AppColors {
 
   /// Sfondo delle pagine (dashboard)
   static const Color backgroundColor = Color(0xFFF4F6F8); // Grigio tecnico chiaro
-
+ 
   /// Sfondo delle card
   static const Color cardColor = Colors.white;
 

@@ -1,66 +1,35 @@
 import 'package:flutter/material.dart';
+import '../models/event_states_model.dart';
 import 'app_colors.dart';
 
 class AppEventStates {
-  // ------------------------------------------------------------
-  // 📌 LISTA DEGLI STATI SUPPORTATI
-  // ------------------------------------------------------------
-  static const String preparazione = 'Preparazione';
-  static const String inCorso = 'In Corso';
-  static const String concluso = 'Concluso';
-  static const String chiuso = 'Chiuso';
-
-  // ------------------------------------------------------------
-  // 🎨 MAPPATURA STATO → COLORE (Palette Tecnica)
-  // ------------------------------------------------------------
-  static Color getColor(String stato) {
-    switch (stato) {
-      case preparazione:
-        return AppColors.preparazioneColor; // Arancio tecnico
-      case inCorso:
-        return AppColors.inCorsoColor; // Verde successo
-      case concluso:
-        return AppColors.conclusoColor; // Grigio tecnico
-      case chiuso:
-        return AppColors.chiusoColor; // Rosso critico
-      default:
-        return const Color(0xFF6E7A89); // fallback tecnico
+  static Color getColor(EventState state) {
+    switch (state) {
+      case EventState.preparazione:
+        return AppColors.preparazioneColor;
+      case EventState.inCorso:
+        return AppColors.inCorsoColor;
+      case EventState.concluso:
+        return AppColors.conclusoColor;
+      case EventState.chiuso:
+        return AppColors.chiusoColor;
     }
   }
 
-  // ------------------------------------------------------------
-  // 🧩 MAPPATURA STATO → ICONA (Stile Tecnico / Lineare)
-  // ------------------------------------------------------------
-  static IconData getIcon(String stato) {
-    switch (stato) {
-      case preparazione:
-        return Icons.build_outlined; // più tecnico di hourglass
-      case inCorso:
-        return Icons.play_circle_outline; // lineare, professionale
-      case concluso:
-        return Icons.check_circle_outline; // check tecnico
-      case chiuso:
-        return Icons.lock_outline; // lucchetto lineare
-      default:
-        return Icons.help_outline; // fallback
+  static IconData getIcon(EventState state) {
+    switch (state) {
+      case EventState.preparazione:
+        return Icons.build_outlined;
+      case EventState.inCorso:
+        return Icons.play_circle_outline;
+      case EventState.concluso:
+        return Icons.check_circle_outline;
+      case EventState.chiuso:
+        return Icons.lock_outline;
     }
   }
 
-  // ------------------------------------------------------------
-  // 🏷️ MAPPATURA STATO → LABEL (Testo leggibile)
-  // ------------------------------------------------------------
-  static String getLabel(String stato) {
-    switch (stato) {
-      case preparazione:
-        return 'Preparazione';
-      case inCorso:
-        return 'In Corso';
-      case concluso:
-        return 'Concluso';
-      case chiuso:
-        return 'Chiuso';
-      default:
-        return 'Sconosciuto';
-    }
+  static String getLabel(EventState state) {
+    return state.label; // usa l’estensione del model
   }
 }

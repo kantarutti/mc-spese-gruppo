@@ -5,26 +5,23 @@ import 'app_spacing.dart';
 class AppTheme {
   static ThemeData get light {
     return ThemeData(
-      useMaterial3: true,
+      useMaterial3: false, // Material 2 → necessario per CardThemeData
       brightness: Brightness.light,
 
-      //  🎨 COLORI --------------------------------------------------------------
-      colorScheme: ColorScheme(
-        brightness: Brightness.light,
-        primary: AppColors.primaryColor,
-        onPrimary: AppColors.primaryTextColor,
-        secondary: AppColors.secondaryColor,
-        onSecondary: Colors.white,
-        error: AppColors.chiusoColor,
-        onError: Colors.white,
-        background: AppColors.backgroundColor,
-        onBackground: AppColors.secondaryTextColor,
-        surface: AppColors.cardColor,
-        onSurface: AppColors.secondaryTextColor,
-      ),
+      // 🎨 COLORI PRINCIPALI
+      primaryColor: AppColors.primaryColor,
       scaffoldBackgroundColor: AppColors.backgroundColor,
 
-      // 🖋️ CARATTERI ------------------------------------------------------------
+      // 🎨 COLOR SCHEME SEMPLICE E COMPATIBILE
+      colorScheme: ColorScheme.light(
+        primary: AppColors.primaryColor,
+        secondary: AppColors.secondaryColor,
+        error: AppColors.chiusoColor,
+        background: AppColors.backgroundColor,
+        surface: AppColors.cardColor,
+      ),
+
+      // 🖋️ TESTI
       textTheme: const TextTheme(
         titleLarge: TextStyle(
           fontSize: 22,
@@ -48,28 +45,18 @@ class AppTheme {
         ),
       ),
 
-      //  🧱 CARD ------------------------------------------------------------
+      // 🧱 CARD THEME (Material 2 → CardThemeData)
       cardTheme: const CardThemeData(
         color: AppColors.cardColor,
         elevation: 1,
-        margin: EdgeInsets.symmetric(
-          vertical: AppSpacing.sm,
-          horizontal: AppSpacing.md,
-        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(6)),
-          side: BorderSide(
-            color: AppColors.dividerColor,
-            width: 1,
-          ),
         ),
       ),
 
-      // 📝 CAMPI INPUT / FORM  ------------------------------------------------------------
+      // 📝 INPUT DECORATION
       inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(),
-
-        // Bordo normale
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -77,8 +64,6 @@ class AppTheme {
             width: 1,
           ),
         ),
-
-        // Bordo quando è in focus
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -86,8 +71,6 @@ class AppTheme {
             width: 2,
           ),
         ),
-
-        // ⭐ Bordo per campi readOnly / disabled
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
@@ -95,29 +78,21 @@ class AppTheme {
             width: 1,
           ),
         ),
-
-        // ⭐ Sfondo dei campi normali → bianco
         filled: true,
         fillColor: AppColors.cardColor,
-
-        // Padding
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
-
-        // Label
         labelStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.secondaryTextColor,
         ),
-
-        // Icona
         prefixIconColor: AppColors.secondaryColor,
       ),
 
-      // 🔘 PULSANTI ------------------------------------------------------------
+      // 🔘 PULSANTI
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,
@@ -128,6 +103,7 @@ class AppTheme {
           ),
         ),
       ),
+
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.secondaryColor,
@@ -142,7 +118,7 @@ class AppTheme {
         ),
       ),
 
-      // 📌 APPBAR ------------------------------------------------------------
+      // 📌 APPBAR
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         elevation: 0.5,

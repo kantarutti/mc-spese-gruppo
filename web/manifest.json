@@ -1,5 +1,5 @@
 {
-    "name": "mc_spese_gruppo",
+    "name": "spese_di_gruppo",
     "short_name": "Spese di Gruppo",
     "start_url": "/",
     "display": "standalone",

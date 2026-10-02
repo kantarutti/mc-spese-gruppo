@@ -2,27 +2,15 @@ import 'package:flutter/material.dart';
 
 class AppSpacing {
   // ------------------------------------------------------------
-  // 📏 SPAZIATURE STANDARD (8 / 12 / 16 / 24 / 32)
+  // 📏 SPAZIATURE STANDARD
   // ------------------------------------------------------------
 
-  /// Spaziatura molto piccola (icone, micro padding)
   static const double xs = 4.0;
-
-  /// Spaziatura piccola (tra elementi vicini)
   static const double sm = 8.0;
-
-  /// Spaziatura media (tra label e campo, tra righe)
   static const double md = 12.0;
-
-  /// Spaziatura standard (tra sezioni, tra card)
   static const double lg = 16.0;
-
-  /// Spaziatura ampia (tra blocchi principali)
   static const double xl = 24.0;
-
-  /// Spaziatura extra ampia (padding esterno pagina)
   static const double xxl = 32.0;
-
 
   // ------------------------------------------------------------
   // 📦 PADDING PREDEFINITI
@@ -48,4 +36,22 @@ class AppSpacing {
 
   /// Spaziatura verticale tra elementi in una colonna
   static const EdgeInsets columnSpacing = EdgeInsets.only(top: md);
+
+  // ------------------------------------------------------------
+  // 🎨 RADIUS STANDARD
+  // ------------------------------------------------------------
+
+  static const double radiusXs = 4.0;
+  static const double radiusSm = 8.0;
+  static const double radiusMd = 12.0;
+  static const double radiusLg = 16.0;
+
+  // ------------------------------------------------------------
+  // 🌫️ BLUR PER LE OMBRE
+  // ------------------------------------------------------------
+
+  static const double blurXs = 2.0;
+  static const double blurSm = 4.0;
+  static const double blurMd = 8.0;
+  static const double blurLg = 16.0;
 }

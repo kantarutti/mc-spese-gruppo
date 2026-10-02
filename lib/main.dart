@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'welcome_page.dart';
-import 'user/login_page.dart';
-import 'user/profile_setup_page.dart';
-import 'home_page.dart';
+import 'pages/user/welcome_page.dart';
+import 'pages/user/login_page.dart';
+import 'pages/user/signup_page.dart';
+import 'pages/user/verify_otp_page.dart';
+import 'pages/user/profile_setup_page.dart';
+import 'pages/home_page.dart';
 import 'services/auth_service.dart';
 import 'config/app_theme.dart';
 
@@ -47,6 +49,8 @@ class MyApp extends StatelessWidget {
 
 routes: {
   '/login': (context) => const LoginPage(),
+  '/signup': (context) => const SignupPage(),
+  '/verify-otp': (context) => const VerifyOtpPage(),
 //  '/profileSetupPage': (context) => const ProfileSetupPage(),
 //  '/profilePage': (context) => const ProfilePage(),
   '/home': (context) => const HomePage(),
