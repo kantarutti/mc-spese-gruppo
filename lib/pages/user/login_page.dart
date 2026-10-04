@@ -224,12 +224,17 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: AppSpacing.md),
 
-              // ⭐ REGISTRATI BUTTON
+              // ⭐ REGISTRATI BUTTON (Disabilitato per Beta Test)
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signup');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Applicazione in Beta Test. Registrazione non disponibile."),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
                   },
                   child: const Text("Registrati"),
                 ),

@@ -18,7 +18,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Una nuova applicazione Flutter per la gestione delle spese di gruppo.">
   <meta name="theme-color" content="#0A4D8C">
 
   <!-- VIEWPORT CRUCIALE: Forza la larghezza del dispositivo e copre l'intero schermo (inclusa la tacca/status bar) -->
@@ -28,13 +28,13 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="mc_spese_gruppo">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="Spese di Gruppo">
+  <link rel="apple-touch-icon" href="icons/Icon-SDG-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>mc_spese_gruppo</title>
+  <title>Spese di Gruppo</title>
   <link rel="manifest" href="manifest.json">
 
   <!-- 🛑 CONFIGURAZIONE RENDERER HTML PER STABILITÀ SU SAFARI -->
@@ -42,17 +42,6 @@
     window.flutterConfiguration = {
       renderer: "html"
     };
-  </script>
-
-  <!-- 🛑 SCRIPT ANTI-CACHE PER SERVICE WORKER SU iOS -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for(let registration of registrations) {
-          registration.unregister();
-        }
-      });
-    }
   </script>
 </head>
 <body>
