@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'event_edit/evento_edit_page.dart';
 import 'event_view/evento_view_shell.dart'; // ⭐ IMPORT RIPRISTINATO
@@ -76,13 +77,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
 
   @override
   void didPopNext() {
-    Future.microtask(() {
-      setState(() {
-        _eventsStream = _supabase
-            .from('eventi_con_stato')
-            .stream(primaryKey: ['id']).order('data_inizio', ascending: false);
-      });
+//    Future.microtask(() {
+    setState(() {
+      _eventsStream = _supabase
+          .from('eventi_con_stato')
+          .stream(primaryKey: ['id']).order('data_inizio', ascending: false);
     });
+//    });
   }
 
   Future<void> _loadEvents() async {
@@ -234,11 +235,16 @@ class _HomePageState extends State<HomePage> with RouteAware {
           appBar: AppWidgets.appBar(
             leftWidget: InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                // ⭐ Aspettiamo il ritorno dalla pagina profilo e aggiorniamo lo stato
+                await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const ProfilePage()),
                 );
+                if (mounted) {
+                  setState(
+                      () {}); // ⭐ Forza il rebuild immediato con la nuova lingua
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -249,8 +255,8 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 child: const Icon(Icons.person, color: Colors.white),
               ),
             ),
-            titleWidget: const Text(
-              'Le mie Attività',
+            titleWidget: Text(
+              'le_mie_attivita'.tr(),
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -345,7 +351,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
             actions: [
               AppWidgets.actionButton(
                 icon: Icons.add,
-                label: "Nuova Attività",
+                label: 'nuova_attivita'.tr(),
                 onTap: _mostraPopupCreazione,
               ),
               AppWidgets.actionButton(

@@ -16,6 +16,7 @@ class InvitoService {
     required String luogoEvento,
     required String dataInizio,
     required String dataFine,
+    required String conto,
   }) async {
 
     // 1️⃣ Recupero dati utente da Supabase
@@ -40,6 +41,7 @@ class InvitoService {
       luogoEvento: luogoEvento,
       dataInizio: dataInizio,
       dataFine: dataFine,
+      conto:conto,
       stato: stato,
       pin: pin,
     );

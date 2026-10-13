@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum EventState {
   preparazione,
   inCorso,
@@ -21,16 +23,17 @@ extension EventStateParser on EventState {
     }
   }
 
-  String get label {
+  // Restituisce la CHIAVE pura per la traduzione
+  String get translationKey {
     switch (this) {
       case EventState.preparazione:
-        return 'Preparazione';
+        return 'state_preparazione';
       case EventState.inCorso:
-        return 'In Corso';
+        return 'state_in_corso';
       case EventState.concluso:
-        return 'Concluso';
+        return 'state_concluso';
       case EventState.chiuso:
-        return 'Chiuso';
+        return 'state_chiuso';
     }
   }
 }

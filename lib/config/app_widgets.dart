@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'app_spacing.dart';
 import 'app_event_states.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum FieldMode { edit, readOnly, disabled }
 
@@ -78,19 +79,19 @@ return AppBar(
 );
   }
 
-////// 🔵 EVENT BAR (EventBar di navigazione personalizzata) --------------------
+// 🔵 EVENT BAR (EventBar di navigazione personalizzata) --------------------
   static Widget eventBar({
     required int currentIndex,
     required Function(int) onTap,
     bool isChiuso = false,
   }) {
-    // Definizione dei tab della barra
+    // Definizione delle chiavi di traduzione per i tab della barra
     final items = [
-      {'icon': Icons.home, 'label': 'Home'},
-      {'icon': Icons.event, 'label': 'Riepilogo'},
-      {'icon': Icons.payments, 'label': 'Spese'},
-      {'icon': Icons.sync_alt, 'label': 'Giroconti'},
-      {'icon': Icons.bar_chart, 'label': 'Grafici'},
+      {'icon': Icons.home, 'label': 'nav_home'.tr()},
+      {'icon': Icons.event, 'label': 'nav_riepilogo'.tr()},
+      {'icon': Icons.payments, 'label': 'nav_spese'.tr()},
+      {'icon': Icons.sync_alt, 'label': 'nav_giroconti'.tr()},
+      {'icon': Icons.bar_chart, 'label': 'nav_grafici'.tr()},
     ];
 
     return Container(
@@ -149,6 +150,7 @@ return AppBar(
       ),
     );
   }
+
 // 🔵 ACTION BAR (barra dei comandi) -------------------------------------
   static Widget actionBar({
     required List<Widget> actions,
@@ -437,6 +439,7 @@ static Widget inputField({
     required ValueChanged<String?> onChanged,
     IconData icon = Icons.list,
     FieldMode mode = FieldMode.edit,
+    String Function(String)? displayTransformer, // <-- PARAMETRO AGGIUNTIVO OPZIONALE
   }) {
     final bool isReadOnly = mode == FieldMode.readOnly;
     final bool isDisabled = mode == FieldMode.disabled;
@@ -445,7 +448,6 @@ static Widget inputField({
     return DropdownButtonFormField<String>(
       value: value,
       
-      // Stile del testo selezionato unificato
       style: TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.bold,
@@ -455,15 +457,12 @@ static Widget inputField({
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-
-        // Sfondo e bordo in base alla modalità
         filled: isBlocked,
         fillColor: isDisabled
             ? Colors.grey.withOpacity(0.25)
             : isReadOnly
                 ? Colors.grey.withOpacity(0.15)
                 : null,
-
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.md),
           borderSide: BorderSide(
@@ -480,12 +479,14 @@ static Widget inputField({
 
       items: options
           .map((v) => DropdownMenuItem(
-                value: v,
-                child: Text(v),
+                value: v, // Restituisce il codice es. 'it' quando viene selezionato
+                child: Text(
+                  // Se c'è un trasformatore lo usa (es. 'it' -> 'Italiano'), altrimenti mostra 'v'
+                  displayTransformer != null ? displayTransformer(v) : v,
+                ),
               ))
           .toList(),
 
-      // Callback disabilitato se non siamo in modalità edit
       onChanged: mode == FieldMode.edit ? onChanged : null,
     );
   }

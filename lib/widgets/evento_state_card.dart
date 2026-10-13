@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../config/app_event_states.dart';
 import '../models/event_states_model.dart';
 
@@ -11,6 +12,9 @@ class EventoStateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = AppEventStates.getColor(statoEnum);
     final icon = AppEventStates.getIcon(statoEnum);
+
+    // ⭐ Usiamo translationKey e applichiamo .tr() sfruttando il context del widget
+    final label = statoEnum.translationKey.tr();
 
     return Container(
       width: double.infinity,
@@ -26,7 +30,7 @@ class EventoStateCard extends StatelessWidget {
           Icon(icon, color: color, size: 22),
           const SizedBox(width: 8),
           Text(
-            statoEnum.label,
+            label,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

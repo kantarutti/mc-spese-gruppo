@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../config/app_widgets.dart';
 
 class EventoTablesButtons extends StatelessWidget {
@@ -25,19 +26,19 @@ class EventoTablesButtons extends StatelessWidget {
         children: [
           AppWidgets.actionChip(
             icon: Icons.map,
-            label: 'Località',
+            label: 'localita_btn'.tr(),
             onTap: onLocalitaTap,
             mode: mode,
           ),
           AppWidgets.actionChip(
             icon: Icons.currency_exchange,
-            label: 'Valute',
+            label: 'valute_btn'.tr(),
             onTap: onValuteTap,
             mode: mode,
           ),
           AppWidgets.actionChip(
             icon: Icons.people,
-            label: 'Persone',
+            label: 'persone_btn'.tr(),
             onTap: onTeamsTap,
             mode: mode,
           ),

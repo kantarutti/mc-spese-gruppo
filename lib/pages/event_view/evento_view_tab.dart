@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../config/app_widgets.dart';
 import '../../config/app_event_states.dart';
@@ -33,7 +34,7 @@ class _EventoViewTabState extends State<EventoViewTab> {
   String? _userId;
   String? _amministratoreId;
 
-  String _tassoCambio = "Caricamento...";
+  String _tassoCambio = "caricamento".tr();
   bool _mostraCambio = true;
   bool showTutorial = true;
 
@@ -82,7 +83,7 @@ class _EventoViewTabState extends State<EventoViewTab> {
       }
     } catch (e) {
       if (mounted) {
-        setState(() => _tassoCambio = "Errore connessione");
+        setState(() => _tassoCambio = "errore_connessione".tr());
       }
     }
   }
@@ -128,7 +129,7 @@ class _EventoViewTabState extends State<EventoViewTab> {
                       left: null,
                       center: AppWidgets.whiteButton(
                         icon: Icons.edit,
-                        label: "Modifica",
+                        label: "modifica".tr(),
                         onTap: () async {
                           await Navigator.push(
                             context,
@@ -166,46 +167,46 @@ class _EventoViewTabState extends State<EventoViewTab> {
                       const SizedBox(height: 10),
                       _buildBox(
                         "",
-                        "${evento.numeroPersone} Persone",
+                        "$numeroPersone ${'persone'.tr()}",
                         Colors.black87,
                         small: true,
                       ),
                       const SizedBox(height: 30),
                       _buildBox(
-                        "Siamo a",
-                        evento.localita ?? "N/D",
+                        "label_siamo_a".tr(),
+                        evento.localita ?? "nd".tr(),
                         Colors.black87,
                       ),
                       const SizedBox(height: 10),
                       _buildBox(
-                        "Spesa Totale",
+                        "label_spesa_totale".tr(),
                         totaleSpesa.toStringAsFixed(2),
                         Colors.red,
                       ),
                       const SizedBox(height: 10),
                       _buildBox(
-                        "Pro Capite",
+                        "label_pro_capite".tr(),
                         proCapite.toStringAsFixed(2),
                         Colors.blue,
                       ),
                       const SizedBox(height: 10),
                       if (_mostraCambio)
                         _buildBox(
-                          "Cambio",
+                          "label_cambio".tr(),
                           _tassoCambio,
                           Colors.black87,
                           small: true,
                         ),
                       const SizedBox(height: 30),
                       _buildBox(
-                        "Amministratore",
-                        evento.amministratore ?? "N/D",
+                        "label_amministratore".tr(),
+                        evento.amministratore ?? "nd".tr(),
                         Colors.black87,
                       ),
                       const SizedBox(height: 30),
                       _buildBox(
-                        "Stato",
-                        statoEnum.label,
+                        "label_stato".tr(),
+                        statoEnum.translationKey.tr(),
                         AppEventStates.getColor(statoEnum),
                       ),
                       const SizedBox(height: 30),

@@ -150,6 +150,7 @@ class _PersonePageState extends State<PersonePage> {
         luogoEvento: luogoEvento,
         dataInizio: dataInizio,
         dataFine: dataFine,
+        conto: nomeGruppo,
       );
     }
 
@@ -310,6 +311,7 @@ class _PersonePageState extends State<PersonePage> {
                                         luogoEvento: luogoEvento,
                                         dataInizio: dataInizio,
                                         dataFine: dataFine,
+                                        conto: nomeGruppo,
                                       );
                                     },
                                   ),

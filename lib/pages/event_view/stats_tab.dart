@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../config/app_colors.dart';
@@ -39,18 +40,17 @@ class _StatsTabState extends State<StatsTab> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
-              tabs: const [
-                Tab(text: 'Località'),
-                Tab(text: 'Tipologia'),
+              tabs: [
+                Tab(text: 'localita'.tr()),
+                Tab(text: 'col_tipologia'.tr()),
               ],
             ),
           ),
         ),
         body: TabBarView(
           children: [
-            _buildChartSection('localita', 'Località'),
-            _buildChartSection('tipologia', 'Tipologia'),
-            //           _buildChartSection('gruppo_nome', 'Gruppi'),
+            _buildChartSection('localita', 'localita'.tr()),
+            _buildChartSection('tipologia', 'col_tipologia'.tr()),
           ],
         ),
       ),
@@ -65,7 +65,7 @@ class _StatsTabState extends State<StatsTab> {
           return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || (snapshot.data!['data'] as List).isEmpty) {
-          return const Center(child: Text("Nessun dato disponibile"));
+          return Center(child: Text('nessun_dato_disponibile'.tr()));
         }
 
         final data = snapshot.data!['data'] as List<Map<String, dynamic>>;
@@ -107,8 +107,8 @@ class _StatsTabState extends State<StatsTab> {
                               BorderSide(color: Colors.grey.shade400, width: 1),
                           right:
                               BorderSide(color: Colors.grey.shade400, width: 1),
-                          left: BorderSide(color: Colors.transparent),
-                          top: BorderSide(color: Colors.transparent),
+                          left: const BorderSide(color: Colors.transparent),
+                          top: const BorderSide(color: Colors.transparent),
                         ),
                       ),
                       gridData: FlGridData(
@@ -120,7 +120,7 @@ class _StatsTabState extends State<StatsTab> {
                           return FlLine(
                             color: Colors.grey.shade300,
                             strokeWidth: 1,
-                            dashArray: [5, 5],
+                            dashArray: const [5, 5],
                           );
                         },
                       ),
@@ -185,7 +185,7 @@ class _StatsTabState extends State<StatsTab> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Text(
-                    "Valuta: $valuta",
+                    "${'valuta'.tr()}: $valuta",
                     style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

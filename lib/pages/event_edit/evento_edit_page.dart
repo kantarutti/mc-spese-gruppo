@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../config/app_widgets.dart';
 import '../../services/evento_service.dart';
@@ -94,7 +95,7 @@ class EventoEditPageState extends State<EventoEditPage> {
       localitaDisponibili = await _service.loadLocalita(widget.eventoId);
       valuteDisponibili = await _service.loadValute(widget.eventoId);
     } catch (e) {
-      print("Errore caricamento evento: $e");
+      // Errore caricamento evento
     } finally {
       if (mounted) {
         setState(() => loading = false);
@@ -165,7 +166,7 @@ class EventoEditPageState extends State<EventoEditPage> {
         backgroundColor: Colors.white,
         appBar: AppWidgets.appBar(
           leftWidget: null,
-          titleWidget: const Text("Configurazione Attività"),
+          titleWidget: Text('configurazione_attivita'.tr()),
           rightWidget: null,
         ),
         body: SingleChildScrollView(
@@ -174,7 +175,7 @@ class EventoEditPageState extends State<EventoEditPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppWidgets.inputField(
-                label: "Nome",
+                label: 'nome'.tr(),
                 controller: nomeController,
                 icon: Icons.event,
                 onChanged: (_) => salva(),
@@ -182,7 +183,7 @@ class EventoEditPageState extends State<EventoEditPage> {
               ),
               const SizedBox(height: 20),
               AppWidgets.dropdownField(
-                label: "Tipo",
+                label: 'tipo'.tr(),
                 value: tipoEvento,
                 options: const [
                   "Viaggio",
@@ -201,7 +202,7 @@ class EventoEditPageState extends State<EventoEditPage> {
               ),
               const SizedBox(height: 20),
               AppWidgets.dropdownField(
-                label: "Siamo a",
+                label: 'siamo_a'.tr(),
                 value: localitaSelezionata,
                 options: localitaDisponibili,
                 onChanged: (v) {
@@ -216,7 +217,7 @@ class EventoEditPageState extends State<EventoEditPage> {
                 children: [
                   Expanded(
                     child: AppWidgets.dateField(
-                      label: "Data Inizio",
+                      label: 'data_inizio'.tr(),
                       date: dataInizio,
                       onTap: () => _handleDatePick(isStart: true),
                       mode: fieldMode,
@@ -225,7 +226,7 @@ class EventoEditPageState extends State<EventoEditPage> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: AppWidgets.dateField(
-                      label: "Data Fine",
+                      label: 'data_fine'.tr(),
                       date: dataFine,
                       onTap: () => _handleDatePick(isStart: false),
                       mode: fieldMode,
@@ -238,7 +239,7 @@ class EventoEditPageState extends State<EventoEditPage> {
                 children: [
                   Expanded(
                     child: AppWidgets.valutaField(
-                      label: "Valuta Spese",
+                      label: 'valuta_spese'.tr(),
                       value: valutaOrigine,
                       options: valuteDisponibili,
                       onChanged: (v) {
@@ -251,7 +252,7 @@ class EventoEditPageState extends State<EventoEditPage> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: AppWidgets.valutaField(
-                      label: "Valuta Conteggi",
+                      label: 'valuta_conteggi'.tr(),
                       value: valutaTarget,
                       options: valuteDisponibili,
                       onChanged: (v) {

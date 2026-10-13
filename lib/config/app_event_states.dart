@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart'; // ⭐ Aggiunto l'import
 import '../models/event_states_model.dart';
 import 'app_colors.dart';
 
@@ -30,6 +31,6 @@ class AppEventStates {
   }
 
   static String getLabel(EventState state) {
-    return state.label; // usa l’estensione del model
+    return state.translationKey.tr(); // ⭐ Usa la chiave tradotta correttamente
   }
 }

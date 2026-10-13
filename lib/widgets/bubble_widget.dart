@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import '../config/app_colors.dart';
 import '../config/app_spacing.dart';
 
@@ -75,8 +77,8 @@ Row(
     // ⭐ Pulsante NON MOSTRARE PIÙ (sempre a destra)
     TextButton(
       onPressed: onDontShowAgain,
-      child: const Text(
-        "Non mostrare più",
+      child: Text(
+        'non_mostrare_piu'.tr(),
         style: TextStyle(
           color: AppColors.chiusoColor,
           fontWeight: FontWeight.w600,

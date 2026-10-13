@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-//import 'package:intl/intl.dart';
-import 'dart:convert'; // Necessario per decodificare il JSON dell'API[cite: 5]
-import 'package:http/http.dart'
-    as http; // Necessario per la chiamata internet[cite: 5]
+import 'dart:convert'; // Necessario per decodificare il JSON dell'API
+import 'package:http/http.dart' as http; // Necessario per la chiamata internet
 import '../../config/app_widgets.dart';
 import '../../widgets/evento_card.dart';
 import '../home_page.dart';
@@ -33,8 +32,7 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
   String _valutaScelta = 'EUR';
   String _valutaTarget = 'EUR';
   double _tassoAnteprima = 1.0;
-  bool _isLoading =
-      false; // Stato per gestire l'attesa della ricerca internet[cite: 1, 5]
+  bool _isLoading = false; // Stato per gestire l'attesa della ricerca internet
 
   // Controller per la spesa (quella che inserisce l'utente ora)
   final TextEditingController _spesaController = TextEditingController();
@@ -80,48 +78,42 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
     _spesaController.addListener(() => setState(() {}));
   }
 
-  // Funzione per recuperare il tasso di cambio reale da internet[cite: 5]
+  // Funzione per recuperare il tasso di cambio reale da internet
   Future<double> _getExchangeRate(String from, String to) async {
     if (from == to) return 1.0;
     try {
-      // Chiamata all'API di cambio valuta[cite: 5]
       final url = Uri.parse('https://open.er-api.com/v6/latest/$from');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        // L'API restituisce i tassi rispetto alla valuta base (to)[cite: 5]
         return (data['rates'][to] as num).toDouble();
       }
     } catch (e) {
-//      print("Errore durante il recupero del tasso: $e");
+      // Errore silenzioso
     }
-    return 0.0; // Restituisce 0 in caso di errore[cite: 5]
+    return 0.0; 
   }
 
   Future<void> _caricaDatiEvento() async {
     try {
-      // 1. Leggiamo i dati necessari dalla tabella 'eventi'
       final eventoData = await _supabase
           .from('eventi')
           .select('localita, valuta_origine, valuta_target')
           .eq('id', widget.eventoId)
           .single();
 
-      // 2. Leggiamo TUTTE le località possibili
       final localitaData = await _supabase
           .from('localita')
           .select('localita')
           .eq('evento_id', widget.eventoId);
 
-      // 3. Leggiamo le valute
       final valuteData = await _supabase
           .from('valute')
           .select('valuta')
           .eq('evento_id', widget.eventoId);
 
       setState(() {
-        // Popoliamo la lista del menu a tendina
         _listaLocalita = (localitaData as List)
             .map((l) => l['localita'].toString())
             .toList();
@@ -129,12 +121,10 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
         _listaValute =
             (valuteData as List).map((v) => v['valuta'].toString()).toList();
 
-        // Sempre aggiornata, sia in insert che in update
         if (eventoData['valuta_target'] != null) {
           _valutaTarget = eventoData['valuta_target'];
         }
 
-        // Gestione NUOVA spesa
         if (widget.spesaIniziale == null) {
           if (eventoData['localita'] != null) {
             _localitaScelta = eventoData['localita'].toString();
@@ -148,7 +138,6 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
         }
       });
 
-      // Ora che sappiamo la valuta scelta e quella target, scarichiamo il tasso reale
       if (_valutaScelta != _valutaTarget) {
         double tassoIniziale =
             await _getExchangeRate(_valutaScelta, _valutaTarget);
@@ -158,10 +147,8 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
           });
         }
       }
-
-      // ---------------------------------
     } catch (e) {
- //     print("Errore caricamento dati: $e");
+      // Errore caricamento dati
     }
   }
 
@@ -172,11 +159,10 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
       appBar: AppWidgets.appBar(
         leftWidget: null,
         titleWidget: Text(
-          widget.spesaIniziale == null ? "Nuova Spesa" : "Modifica Spesa",
+          widget.spesaIniziale == null ? 'nuova_spesa'.tr() : 'modifica_spesa'.tr(),
         ),
         rightWidget: null,
       ),
- 
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(color: Color(0xFF00B2FF)),
@@ -190,7 +176,7 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
                   children: [
                     // LOCALITÀ
                     AppWidgets.dropdownField(
-                      label: "Località",
+                      label: 'col_localita'.tr(),
                       value: _localitaScelta,
                       options: _listaLocalita,
                       icon: Icons.place,
@@ -200,7 +186,7 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
 
                     // DATA
                     AppWidgets.dateField(
-                      label: "Data",
+                      label: 'col_data'.tr(),
                       date: _dataSelezionata,
                       onTap: () async {
                         final picked = await showDatePicker(
@@ -220,11 +206,10 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // LABEL
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            "Valuta",
+                            'valuta'.tr(),
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 14,
@@ -232,8 +217,6 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
                             ),
                           ),
                         ),
-
-                        // BOTTONI VALUTA
                         Row(
                           children: _listaValute.map((v) {
                             final bool isSelected = _valutaScelta == v;
@@ -289,11 +272,11 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
 
                     // SPESA
                     AppWidgets.inputField(
-                      label: "Spesa",
+                      label: 'spesa_label'.tr(),
                       controller: _spesaController,
                       icon: Icons.euro,
-                     keyboardType:
-                           const TextInputType.numberWithOptions(decimal: true, signed: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true, signed: true),
                     ),
 
                     // ANTEPRIMA COSTO
@@ -313,7 +296,7 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
                                 (_tassoAnteprima > 0 ? _tassoAnteprima : 1.0);
 
                             return Text(
-                              "Costo stimato: ${anteprima.toStringAsFixed(2)} $_valutaTarget",
+                              "${'costo_stimato'.tr()}: ${anteprima.toStringAsFixed(2)} $_valutaTarget",
                               style: const TextStyle(
                                 color: Color(0xFF00B2FF),
                                 fontWeight: FontWeight.bold,
@@ -329,7 +312,7 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
 
                     // TIPOLOGIA
                     AppWidgets.dropdownField(
-                      label: "Tipologia",
+                      label: 'col_tipologia'.tr(),
                       value: _tipologiaScelta,
                       options: _listaTipologie,
                       icon: Icons.category,
@@ -339,10 +322,10 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
 
                     // CAUSALE
                     AppWidgets.inputField(
-                      label: "Causale",
+                      label: 'col_causale'.tr(),
                       controller: _causaleController,
                       icon: Icons.edit,
-                     maxLines: 3,
+                      maxLines: 3,
                     ),
 
                     const SizedBox(height: 30),
@@ -356,25 +339,16 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
         actions: [
           AppWidgets.actionButton(
             icon: Icons.arrow_back,
-            label: "Annulla",
+            label: 'annulla'.tr(),
             onTap: () => Navigator.pop(context),
           ),
           AppWidgets.actionButton(
             icon: Icons.save,
-            label: "Salva",
+            label: 'salva'.tr(),
             onTap: _salvaSpesa,
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(text,
-          style: const TextStyle(
-              color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500)),
     );
   }
 
@@ -384,25 +358,21 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
           double.tryParse(_spesaController.text.replaceAll(',', '.'));
       if (spesaInput == null) return;
 
-      setState(() => _isLoading =
-          true); // Avvia caricamento durante la ricerca internet[cite: 5]
+      setState(() => _isLoading = true);
 
-      // Ricerca del tasso di cambio reale su internet[cite: 5]
       double tassoReale = await _getExchangeRate(_valutaScelta, _valutaTarget);
 
       if (tassoReale == 0.0) {
         setState(() => _isLoading = false);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content:
-                    Text("Errore: Impossibile recuperare il tasso di cambio.")),
+            SnackBar(
+                content: Text('errore_tasso_cambio'.tr())),
           );
         }
         return;
       }
 
-      // Calcolo basato sul tasso reale: Spesa * Tasso = Importo locale[cite: 5]
       double importoCalcolato = spesaInput * tassoReale;
 
       final dataSpesa = {
@@ -433,7 +403,7 @@ class _GroupExpensePageState extends State<GroupExpenseTab> {
         setState(() => _isLoading = false);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Errore durante il salvataggio: $e")),
+            SnackBar(content: Text("${'errore_durante_salvataggio'.tr()}: $e")),
           );
         }
       }

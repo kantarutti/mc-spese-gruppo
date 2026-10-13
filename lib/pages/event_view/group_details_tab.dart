@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'group_expense_tab.dart'; // Import per la navigazione
@@ -54,7 +55,7 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
                   children: [
                     Expanded(
                       child: _buildDataRow(
-                        label: "Uscite",
+                        label: 'uscite'.tr(),
                         value: uscite,
                         icon: Icons.shopping_cart,
                         iconColor: const Color(0xFFC62828),
@@ -63,7 +64,7 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
                     ),
                     Expanded(
                       child: _buildDataRow(
-                        label: "Giroconti",
+                        label: 'giroconti'.tr(),
                         value: giroconti,
                         icon: giroconti >= 0
                             ? Icons.file_download
@@ -80,7 +81,7 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
                 ),
 
                 _buildDataRow(
-                  label: "Saldo",
+                  label: 'saldo'.tr(),
                   value: saldo,
                   icon: Icons.money_sharp,
                   iconColor: saldo <= 0
@@ -97,7 +98,7 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
                   children: [
                     Expanded(
                       child: _buildDataRow(
-                        label: "Costo Gruppo",
+                        label: 'costo_gruppo'.tr(),
                         value: costoGruppo,
                         icon: Icons.group,
                         iconColor: const Color(0xFF1976D2),
@@ -115,8 +116,8 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("LISTA SPESE",
-                        style: TextStyle(
+                    Text('lista_spese'.tr(),
+                        style: const TextStyle(
                             fontSize: 12,
                             color: Colors.grey,
                             fontWeight: FontWeight.bold)),
@@ -171,21 +172,21 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
             horizontalMargin: 0,
             showCheckboxColumn: false,
             columns: [
-              const DataColumn(
-                  label: Text('Data',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(
+                  label: Text('col_data'.tr(),
+                      style: const TextStyle(fontWeight: FontWeight.bold))),
               DataColumn(
                   label: Text(valutaTarget,
                       style: const TextStyle(fontWeight: FontWeight.bold))),
-              const DataColumn(
-                  label: Text('Località',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-              const DataColumn(
-                  label: Text('Tipologia',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-              const DataColumn(
-                  label: Text('Causale',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(
+                  label: Text('col_localita'.tr(),
+                      style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(
+                  label: Text('col_tipologia'.tr(),
+                      style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(
+                  label: Text('col_causale'.tr(),
+                      style: const TextStyle(fontWeight: FontWeight.bold))),
             ],
             rows: spese.map((s) {
               DateTime data = DateTime.parse(s['data']);
@@ -275,7 +276,7 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
 
   Widget _buildConguaglioRow(double valore) {
     final bool isPositive = valore >= 0;
-    final String labelConguaglio = isPositive ? "Avere: " : "Dare: ";
+    final String labelConguaglio = isPositive ? "${'avere'.tr()}: " : "${'dare'.tr()}: ";
     final Color color =
         isPositive ? const Color(0xFF2E7D32) : const Color(0xFFC62828);
     final IconData icon = isPositive ? Icons.thumb_up : Icons.remove_circle;
@@ -285,8 +286,8 @@ class _GroupDetailsTabState extends State<GroupDetailsTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Conguaglio",
-              style: TextStyle(color: Colors.grey, fontSize: 12)),
+          Text('conguaglio'.tr(),
+              style: const TextStyle(color: Colors.grey, fontSize: 12)),
           const SizedBox(height: 4),
           Row(
             children: [

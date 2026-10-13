@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart'; // ⭐ NECESSARIO PER context.setLocale
 
 import 'package:mc_spese_gruppo/pages/user/profile_setup_page.dart';
 import 'package:mc_spese_gruppo/config/app_widgets.dart';
@@ -90,6 +91,14 @@ class _LoginPageState extends State<LoginPage> {
       await prefs.setString('cellulare', cell);
       await prefs.setString('utente_id', data['id'].toString());
       await prefs.setString('utente_nome', data['nome']);
+
+// 🌐 AGGIUNTA GESTIONE LINGUA DA SUPABASE
+      final String? linguaUtente = data['lingua'];
+      if (linguaUtente != null && linguaUtente.isNotEmpty) {
+        await context.setLocale(Locale(linguaUtente));
+        await prefs.setString('lingua', linguaUtente);
+      }
+
 
       // 2️⃣ SE NON È REGISTRATO → APRI SETUP
       if (data['primo_accesso'] == false || data['email'] == null) {

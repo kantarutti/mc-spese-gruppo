@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/app_widgets.dart';
@@ -74,7 +75,8 @@ class _LocalitaPageState extends State<LocalitaPage> {
     _loadLocalita();
   }
 
-  Future<void> _deleteLocalita(int id) async {
+  // 🔹 ID aggiornato a String (UUID)
+  Future<void> _deleteLocalita(String id) async {
     await _localitaService.deleteLocalita(id);
     _loadLocalita();
   }
@@ -86,15 +88,15 @@ class _LocalitaPageState extends State<LocalitaPage> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("Modifica Località"),
+        title: Text('modifica_localita'.tr()),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(labelText: "Nome Località"),
+          decoration: InputDecoration(labelText: 'nome_localita'.tr()),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Annulla"),
+            child: Text('annulla'.tr()),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -107,13 +109,12 @@ class _LocalitaPageState extends State<LocalitaPage> {
               Navigator.pop(context);
               _loadLocalita();
             },
-            child: const Text("Salva"),
+            child: Text('salva'.tr()),
           ),
         ],
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -123,10 +124,9 @@ class _LocalitaPageState extends State<LocalitaPage> {
         Scaffold(
           appBar: AppWidgets.appBar(
             leftWidget: null,
-            titleWidget: const Text("Località dell'Evento"           ),
+            titleWidget: Text('localita_evento'.tr()),
             rightWidget: null,
           ),
-
           body: Column(
             children: [
               // FORM DI INSERIMENTO
@@ -136,14 +136,14 @@ class _LocalitaPageState extends State<LocalitaPage> {
                   elevation: 0,
                   color: Colors.deepPurple.withOpacity(0.05),
                   shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
                         AppWidgets.inputField(
-                          label: "Nuova Località",
+                          label: 'nuova_localita'.tr(),
                           controller: nomeController,
                           icon: Icons.location_city,
                         ),
@@ -151,7 +151,7 @@ class _LocalitaPageState extends State<LocalitaPage> {
                         ElevatedButton.icon(
                           onPressed: _addLocalita,
                           icon: const Icon(Icons.add),
-                          label: const Text("Aggiungi alla lista"),
+                          label: Text('aggiungi_alla_lista'.tr()),
                         ),
                       ],
                     ),
@@ -205,7 +205,6 @@ class _LocalitaPageState extends State<LocalitaPage> {
               ),
             ],
           ),
-
           bottomNavigationBar: AppWidgets.actionBar(
             actions: [
               AppWidgets.actionButton(
@@ -219,8 +218,8 @@ class _LocalitaPageState extends State<LocalitaPage> {
                 onTap: () async {
                   await TutorialService.reset("tutorial_localita");
 
-                  showTutorial =
-                      await TutorialService.shouldShow("tutorial_localita");
+                  showTutorial = await TutorialService.shouldShow(
+                      "tutorial_localita");
 
                   setState(() {});
                 },

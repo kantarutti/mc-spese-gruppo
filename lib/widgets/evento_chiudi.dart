@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../config/app_widgets.dart';
 import '../../services/evento_service.dart';
 
@@ -18,29 +19,29 @@ class EventoChiudi extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppWidgets.actionButton(
       icon: Icons.lock,
-      label: "Chiudi",
+      label: 'chiudi'.tr(),
 //      textColor: Colors.red,
       onTap: () async {
         final confermato = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text("Chiusura Evento"),
-            content: const Text(
-              "Sei sicuro di voler chiudere l'evento? Una volta chiuso non potrà più essere aperto.",
+            title: Text('conferma_chiusura_titolo'.tr()),
+            content: Text(
+              'conferma_chiusura_messaggio'.tr(),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text("Annulla"),
+                child: Text('annulla'.tr()),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.red,
+//                  backgroundColor: Colors.red,
                 ),
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text(
-                  "Chiudi",
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  'chiudi'.tr(),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],

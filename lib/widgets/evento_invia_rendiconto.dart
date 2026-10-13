@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import '../config/app_widgets.dart';
 import '../services/evento_service.dart';
  
@@ -50,7 +52,7 @@ Future<void> _inviaRendicontoEmail(BuildContext context) async {
   Widget build(BuildContext context) {
     return AppWidgets.whiteButton(
       icon: Icons.email,
-      label: "Invia Rendiconto",
+      label: 'invia_rendiconto'.tr(),
       onTap: () => _inviaRendicontoEmail(context),
     );
   }

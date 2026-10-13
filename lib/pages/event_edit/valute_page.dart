@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../config/app_widgets.dart';
 import '../../models/valuta_model.dart';
@@ -24,7 +25,6 @@ class ValutePage extends StatefulWidget {
 class _ValutePageState extends State<ValutePage> {
   final ValutaService _valutaService = ValutaService();
   final TextEditingController valutaController = TextEditingController();
-
 
   List<ValutaModel> valute = [];
   bool loading = true;
@@ -100,6 +100,7 @@ class _ValutePageState extends State<ValutePage> {
     setState(() {});
   }
 
+  // ID di tipo int per la tabella valute
   Future<void> _deleteValuta(int id) async {
     await _valutaService.deleteValuta(id);
     await _loadValute();
@@ -114,7 +115,7 @@ class _ValutePageState extends State<ValutePage> {
     return Scaffold(
       appBar: AppWidgets.appBar(
         leftWidget: null,
-        titleWidget: const Text("Valute dell'Evento"),
+        titleWidget: Text('valute_evento'.tr()),
         rightWidget: null,
       ),
       body: Stack(
@@ -136,7 +137,7 @@ class _ValutePageState extends State<ValutePage> {
                       children: [
                         // 🔵 INPUT UTILIZZANDO IL COMPONENTE CENTRALIZZATO
                         AppWidgets.inputField(
-                          label: "Nuova Valuta",
+                          label: 'nuova_valuta'.tr(),
                           controller: valutaController,
                           icon: Icons.currency_exchange,
                           onChanged: (_) => setState(() {}),
@@ -148,7 +149,7 @@ class _ValutePageState extends State<ValutePage> {
                         ElevatedButton.icon(
                           onPressed: _addValuta,
                           icon: const Icon(Icons.add),
-                          label: const Text("Aggiungi alla lista"),
+                          label: Text('aggiungi_alla_lista'.tr()),
                         ),
 
                         const SizedBox(height: 12),

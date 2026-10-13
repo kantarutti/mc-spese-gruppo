@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -143,7 +144,7 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
       appBar: AppWidgets.appBar(
         leftWidget: null,
         titleWidget: Text(
-          widget.giroconto == null ? "Nuovo Giroconto" : "Modifica Giroconto",
+          widget.giroconto == null ? 'nuovo_giroconto'.tr() : 'modifica_giroconto'.tr(),
         ),
         rightWidget: null,
       ),
@@ -156,7 +157,7 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
             children: [
               // DA
               AppWidgets.dropdownField(
-                label: "Da",
+                label: 'da'.tr(),
                 value: _daGruppoId == null
                     ? null
                     : _gruppi
@@ -173,9 +174,8 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
               const SizedBox(height: 20),
 
               // A
-// A
               AppWidgets.dropdownField(
-                label: "A",
+                label: 'a'.tr(),
                 value: _aGruppoId == null
                     ? null
                     : _gruppi
@@ -193,9 +193,8 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
 
               // DATA
               AppWidgets.dateField(
-                label: "Data",
+                label: 'col_data'.tr(),
                 date: _selectedData,
-                //               icon: Icons.calendar_month,
                 onTap: _pickData,
               ),
               const SizedBox(height: 20),
@@ -204,7 +203,7 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  "Valuta",
+                  'valuta'.tr(),
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
@@ -258,11 +257,10 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
 
               // IMPORTO
               AppWidgets.inputField(
-                label: "Importo",
+                label: 'importo'.tr(),
                 controller: _importoController,
                 icon: Icons.euro,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-//                textAlign: TextAlign.center,
                 onChanged: (_) => _aggiornaCalcolo(),
               ),
 
@@ -276,7 +274,7 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
                         size: 20, color: Color(0xFF1E3A5F)),
                     const SizedBox(width: 8),
                     Text(
-                      "Giroconto stimato: ${_risultatoConvertito.toStringAsFixed(2)} $_valutaTarget",
+                      "${'giroconto_stimato'.tr()}: ${_risultatoConvertito.toStringAsFixed(2)} $_valutaTarget",
                       style: const TextStyle(
                         color: Color(0xFF00B2FF),
                         fontWeight: FontWeight.bold,
@@ -296,12 +294,12 @@ class _GirocontiEditPageState extends State<GirocontiEditTab> {
         actions: [
           AppWidgets.actionButton(
             icon: Icons.arrow_back,
-            label: "Annulla",
+            label: 'annulla'.tr(),
             onTap: () => Navigator.pop(context),
           ),
           AppWidgets.actionButton(
             icon: Icons.save,
-            label: "Salva",
+            label: 'salva'.tr(),
             onTap: _salva,
           ),
         ],

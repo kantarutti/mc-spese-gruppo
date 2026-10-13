@@ -23,14 +23,16 @@ class LocalitaService {
     });
   }
 
-  Future<void> updateLocalita(int id, String nuovaLocalita) async {
+  // Aggiornato da int a String (o dynamic) per gestire gli UUID
+  Future<void> updateLocalita(dynamic id, String nuovaLocalita) async {
     await _supabase
         .from('localita')
         .update({'localita': nuovaLocalita})
         .eq('id', id);
   }
 
-  Future<void> deleteLocalita(int id) async {
+  // Aggiornato da int a String (o dynamic) per gestire gli UUID
+  Future<void> deleteLocalita(dynamic id) async {
     await _supabase.from('localita').delete().eq('id', id);
   }
 }

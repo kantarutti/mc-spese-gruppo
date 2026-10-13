@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:easy_localization/easy_localization.dart'; // ⭐ IMPORT FONDAMENTALE PER .tr()
 
 import '../home_page.dart';
 import '../user/login_page.dart';
@@ -147,8 +148,7 @@ class _EventoViewShellState extends State<EventoViewShell> {
           body: _buildBody(),
           bottomNavigationBar: AppWidgets.eventBar(
             currentIndex: _currentIndex,
-            // 🛑 Se l'evento è chiuso, coloriamo di rosso o gestiamo i tab 2 e 3
-            isChiuso: isChiuso, // (Se il tuo AppWidgets.eventBar lo supporta, oppure gestisci il blocco sotto)
+            isChiuso: isChiuso,
             onTap: (index) {
               if (index == 0) {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -161,12 +161,12 @@ class _EventoViewShellState extends State<EventoViewShell> {
               // Se l'evento è chiuso e l'utente tenta di cliccare sul Case 2 o 3, blocchiamo l'azione
               if (isChiuso && (index == 2 || index == 3)) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Attività chiusa: sezioni non modificabili."),
-                    duration: Duration(seconds: 2),
+                  SnackBar(
+                    content: Text("attivita_chiusa_msg".tr()),
+                    duration: const Duration(seconds: 2),
                   ),
                 );
-                return; // Non cambia tab
+                return;
               }
 
               setState(() {

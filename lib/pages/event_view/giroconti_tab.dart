@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart'; // ⭐ IMPORT AGGIUNTO
 import 'giroconti_edit_tab.dart';
 import '../../config/app_widgets.dart';
 import '../../config/app_colors.dart';
@@ -76,11 +77,13 @@ class _GirocontiTabState extends State<GirocontiTab> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("GIROCONTI",
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+                Text(
+                  "label_giroconti".tr(), // ⭐ TRADOTTO
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
                 Text(_valutaTarget,
                     style: const TextStyle(
                         fontSize: 12,
@@ -105,9 +108,11 @@ class _GirocontiTabState extends State<GirocontiTab> {
                 final giroconti = snapshot.data ?? [];
 
                 if (giroconti.isEmpty) {
-                  return const Center(
-                    child: Text("Nessun giroconto registrato",
-                        style: TextStyle(color: Colors.grey, fontSize: 16)),
+                  return Center(
+                    child: Text(
+                      "nessun_giroconto_trovato".tr(), // ⭐ TRADOTTO
+                      style: const TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
                   );
                 }
 
@@ -131,43 +136,40 @@ class _GirocontiTabState extends State<GirocontiTab> {
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 15, vertical: 8),
                         onTap: () => _navigaEAggiorna(context, item),
-                        // Avatar AZZURRO con icona BIANCA (Uguale a groups_tab)
                         leading: CircleAvatar(
                           radius: 22,
-                          backgroundColor: AppColors
-                              .primaryColor, // 🔵 stesso colore della Home
-                          child:
-                              const Icon(Icons.swap_horiz, color: Colors.white),
+                          backgroundColor: AppColors.primaryColor,
+                          child: const Icon(Icons.swap_horiz, color: Colors.white),
                         ),
 
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FutureBuilder<String>(
-                              future: _getGroupName(item['da_gruppo_id']),
-                              builder: (context, res) => Text(
-                                "DA: ${res.data ?? "..."}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Color(0xFFC62828)),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            FutureBuilder<String>(
-                              future: _getGroupName(item['a_gruppo_id']),
-                              builder: (context, res) => Text(
-                                "A: ${res.data ?? "..."}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Color(0xFF2E7D32)),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
+ title: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    FutureBuilder<String>(
+      future: _getGroupName(item['da_gruppo_id']),
+      builder: (context, res) => Text(
+        "${'da'.tr()}: ${res.data ?? "..."}", // ⭐ TRADOTTO (es. "DA:" / "FROM:")
+        style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Color(0xFFC62828)),
+        overflow: TextOverflow.ellipsis,
+      ),
+    ),
+    const SizedBox(height: 2),
+    FutureBuilder<String>(
+      future: _getGroupName(item['a_gruppo_id']),
+      builder: (context, res) => Text(
+        "${'a'.tr()}: ${res.data ?? "..."}", // ⭐ TRADOTTO (es. "A:" / "TO:")
+        style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: Color(0xFF2E7D32)),
+        overflow: TextOverflow.ellipsis,
+      ),
+    ),
+  ],
+),                       
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -206,7 +208,7 @@ class _GirocontiTabState extends State<GirocontiTab> {
         left: null,
         center: AppWidgets.whiteButton(
           icon: Icons.add,
-          label: "Inserisci",
+          label: "inserisci".tr(), // ⭐ TRADOTTO
           onTap: () => _navigaEAggiorna(context),
         ),
         right: null,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../config/app_widgets.dart';
 import '../config/app_colors.dart';
 import '../services/evento_service.dart';
@@ -17,21 +18,21 @@ class EventoElimina extends StatelessWidget {
     final conferma = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Conferma"),
-        content: const Text("Vuoi cancellare questo evento?"),
+        title: Text('conferma'.tr()),
+        content: Text('vuoi_eliminare_evento'.tr()),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("Annulla"),
+            child: Text('annulla'.tr()),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
-              "Cancella",
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              'cancella'.tr(),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -50,7 +51,7 @@ class EventoElimina extends StatelessWidget {
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Errore cancellazione evento: $e")),
+            SnackBar(content: Text("${'errore_cancellazione_evento'.tr()}: $e")),
           );
         }
       }
@@ -61,7 +62,7 @@ class EventoElimina extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppWidgets.actionButton(
       icon: Icons.delete,
-      label: "Cancella",
+      label: 'cancella'.tr(),
       textColor: Colors.red,
       onTap: () => _confermaEdElimina(context),
     );

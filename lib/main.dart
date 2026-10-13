@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'pages/user/welcome_page.dart';
@@ -14,19 +15,32 @@ final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   await Supabase.initialize(
     url: 'https://cgvpvftfpoxqymqbehzw.supabase.co',
     anonKey: 'sb_publishable_I6XKfOiKxrvyE8XEmMr-jg_Ok948G06',
   );
 
-  // Recupero sessione utente se già loggato
   final session = Supabase.instance.client.auth.currentSession;
   if (session != null) {
     await AuthService.refreshCurrentUser(session.user.id);
   }
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('it'), // Solo codice lingua
+        Locale('en'),
+        Locale('es'),
+        Locale('fr'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('it'),
+      useOnlyLangCode: true, // ⭐ QUESTO DICE A EASY_LOCALIZATION DI USARE SOLO it.json, en.json, ECC.
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -42,20 +56,19 @@ class MyApp extends StatelessWidget {
       title: 'MC Spese di Gruppo',
       theme: AppTheme.light,
 
-      // ⭐ Logica corretta: se loggato → HomePage, altrimenti LoginPage
-//      home: session == null ? const LoginPage() : const HomePage(),
-        home: const WelcomePage(),
+      // 🌐 Parametri obbligatori per la gestione delle lingue
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
 
+      home: const WelcomePage(),
 
-routes: {
-  '/login': (context) => const LoginPage(),
-  '/signup': (context) => const SignupPage(),
-  '/verify-otp': (context) => const VerifyOtpPage(),
-//  '/profileSetupPage': (context) => const ProfileSetupPage(),
-//  '/profilePage': (context) => const ProfilePage(),
-  '/home': (context) => const HomePage(),
-},
-
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(),
+        '/verify-otp': (context) => const VerifyOtpPage(),
+        '/home': (context) => const HomePage(),
+      },
     );
   }
 }
