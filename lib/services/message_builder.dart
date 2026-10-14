@@ -17,48 +17,33 @@ String buildMessaggioInvito({
   required String nomePersona,
   required String nomeAmministratore,
   required String nomeEvento,
-  required String luogoEvento,
+//  required String luogoEvento,
   required String dataInizio,
   required String dataFine,
   required String conto,
   required StatoUtente stato,
   required String pin,
 }) {
-  // Se le date sono uguali → usa "il ..."
+
+// Costruiamo correttamente il periodo usando .tr(args:) sulle chiavi dedicate
   final periodo = (dataInizio == dataFine)
-      ? "il *$dataInizio*"
-      : "dal *$dataInizio* al *$dataFine*";
+      ? 'periodo_giorno'.tr(args: [dataInizio])
+      : 'periodo_intervallo'.tr(args: [dataInizio, dataFine]);
 
-  final messaggioBase = """
-Ciao $nomePersona,
+  final messaggioBase = 'messaggio_invito_base'.tr(args: [
+    nomePersona,        // 1° {}
+    nomeAmministratore, // 2° {}
+    nomeEvento,         // 3° {}
+    periodo,            // 4° {} -> inserisce il testo formattato di "periodo"
+    conto,              // 5° {}
+  ]);
 
-*$nomeAmministratore* ti ha aggiunto all’attività *“$nomeEvento”* che si terrà $periodo.
+  final bloccoNonRegistrato = stato == StatoUtente.nonRegistrato
+      ? 'messaggio_invito_non_registrato'.tr(args: [pin])
+      : '';
 
-Inserisci tutte le spese che sostieni per l'attività sul conto *$conto* e condividile con il gruppo.
-
-Tutti i conteggi saranno aggiornati automaticamente.
-""";
-
-  final bloccoNonRegistrato = """
-
-Collegati all’app:
-https://spesedigruppo.mcapplicazioni.com
-
-Fai il Login inserendo il tuo numero di telefono e il PIN provvisorio: *$pin*
-
-Attenzione iPhone!
-Se hai iOS e non vedi l'app, ma vedi "Isolamento Attivo", disattiva la Modalità di Isolamento per questa app:
-
-Impostazioni > Privacy e sicurezza > Modalità di Isolamento > spesedigruppo.mcapplicazioni.com
-""";
-
-  return """
-$messaggioBase${stato == StatoUtente.nonRegistrato ? bloccoNonRegistrato : ""}
-
-Ti aspettiamo!
-""";
+  return "$messaggioBase$bloccoNonRegistrato";
 }
-
 
 // ---------------------------------------------------------------
 // 3. TUTORIAL — Testi dei fumetti

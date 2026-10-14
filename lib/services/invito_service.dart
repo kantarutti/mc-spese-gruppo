@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'message_builder.dart';   // dove hai il tuo buildMessaggioInvito
@@ -38,10 +39,10 @@ class InvitoService {
       nomePersona: nomePersona,
       nomeAmministratore: nomeAmministratore,
       nomeEvento: nomeEvento,
-      luogoEvento: luogoEvento,
+//      luogoEvento: luogoEvento,
       dataInizio: dataInizio,
       dataFine: dataFine,
-      conto:conto,
+      conto: conto,
       stato: stato,
       pin: pin,
     );
@@ -51,7 +52,7 @@ class InvitoService {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Invito"),
+          title: Text('invito_title'.tr()),
           content: SingleChildScrollView(
             child: SelectableText(
               messaggio,
@@ -61,14 +62,14 @@ class InvitoService {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Annulla"),
+              child: Text('annulla'.tr()),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
                 Share.share(messaggio);
               },
-              child: const Text("Invia"),
+              child: Text('invia'.tr()),
             ),
           ],
         );

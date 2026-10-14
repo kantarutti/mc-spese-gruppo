@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'persone_page.dart';
 
 import '../../config/app_widgets.dart';
@@ -84,9 +85,9 @@ class _GruppiPageState extends State<GruppiPage> {
     return Scaffold(
       appBar: AppWidgets.appBar(
         leftWidget: null,
-        titleWidget: const Text(
-          "Conti Spesa",
-          style: TextStyle(
+        titleWidget: Text(
+          'conti_spesa'.tr(),
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -105,7 +106,7 @@ class _GruppiPageState extends State<GruppiPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppWidgets.inputField(
-                      label: "Conto Spesa",
+                      label: 'conto_spesa'.tr(),
                       controller: nomeController,
                       icon: Icons.list,
                       onChanged: (_) => setState(() {}),
@@ -114,7 +115,7 @@ class _GruppiPageState extends State<GruppiPage> {
                     ElevatedButton.icon(
                       onPressed: _addGruppo,
                       icon: const Icon(Icons.add),
-                      label: const Text("Aggiungi Conto"),
+                      label: Text('aggiungi_conto'.tr()),
                     ),
                   ],
                 ),
@@ -134,12 +135,12 @@ class _GruppiPageState extends State<GruppiPage> {
                             return ListTile(
                               title: Text(
                                 gruppo.gruppo.isEmpty
-                                    ? 'Nucleo senza nome'
+                                    ? 'conto_senza_nome'.tr()
                                     : gruppo.gruppo,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600),
                               ),
-                              subtitle: Text("${gruppo.numeroPersone} persone"),
+                              subtitle: Text('${gruppo.numeroPersone} ${'persone_label'.tr()}'),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -192,11 +193,10 @@ class _GruppiPageState extends State<GruppiPage> {
                                                 await showDialog<bool>(
                                               context: context,
                                               builder: (_) => AlertDialog(
-                                                title: const Text(
-                                                    "Conferma eliminazione"),
+                                                title: Text(
+                                                    'conferma_eliminazione'.tr()),
                                                 content: Text(
-                                                  "Vuoi davvero eliminare il Team \"${gruppo.gruppo}\"?\n"
-                                                  "Tutti i Membri del Team verranno eliminati.",
+                                                  "${'vuoi_davvero_eliminare_conto'.tr(args: [gruppo.gruppo])}\n${'tutte_le_persome_verranno_eliminate'.tr()}",
                                                 ),
                                                 actions: [
                                                   TextButton(
@@ -204,14 +204,13 @@ class _GruppiPageState extends State<GruppiPage> {
                                                         Navigator.pop(
                                                             context, false),
                                                     child:
-                                                        const Text("Annulla"),
+                                                        Text('annulla'.tr()),
                                                   ),
                                                   ElevatedButton(
                                                     onPressed: () =>
                                                         Navigator.pop(
                                                             context, true),
-                                                    child:
-                                                        const Text("Elimina"),
+                                                    child: Text('elimina'.tr()),
                                                   ),
                                                 ],
                                               ),

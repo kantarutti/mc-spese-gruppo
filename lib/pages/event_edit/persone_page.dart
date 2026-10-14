@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -113,7 +114,7 @@ class _PersonePageState extends State<PersonePage> {
     
     if (nome.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Inserisci il nome della persona")),
+        SnackBar(content: Text('inserisci_nome_persona'.tr())),
       );
       return;
     }
@@ -134,7 +135,7 @@ class _PersonePageState extends State<PersonePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(risultato['message'] ?? "Questa persona è già inserita nell'evento."),
+            content: Text(risultato['message'] ?? 'persona_gia_inserita'.tr()),
           ),
         );
       }
@@ -193,9 +194,9 @@ class _PersonePageState extends State<PersonePage> {
         Scaffold(
           appBar: AppWidgets.appBar(
             leftWidget: null,
-            titleWidget: const Text(
-              "Conto",
-              style: TextStyle(
+            titleWidget: Text(
+              'conto_label_appbar'.tr(),
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -211,9 +212,9 @@ class _PersonePageState extends State<PersonePage> {
                   controller: TextEditingController(text: nomeGruppo),
                   readOnly: true,
                   enabled: false,
-                  decoration: const InputDecoration(
-                    labelText: "Conto",
-                    prefixIcon: Icon(Icons.list),
+                  decoration: InputDecoration(
+                    labelText: 'conto_label'.tr(),
+                    prefixIcon: const Icon(Icons.list),
                     filled: true,
                     fillColor: AppColors.readonlyFieldColor,
                   ),
@@ -226,9 +227,9 @@ class _PersonePageState extends State<PersonePage> {
                 // 📝 Campo visibile SOLO per il nome della persona
                 TextField(
                   controller: nomeController,
-                  decoration: const InputDecoration(
-                    labelText: "Nome persona",
-                    prefixIcon: Icon(Icons.person),
+                  decoration: InputDecoration(
+                    labelText: 'nome_persona'.tr(),
+                    prefixIcon: const Icon(Icons.person),
                   ),
                   onChanged: (value) {
                     _searchAmici(value);
@@ -244,7 +245,7 @@ class _PersonePageState extends State<PersonePage> {
 
                     if (nome.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Inserisci prima il nome della persona")),
+                        SnackBar(content: Text('inserisci_prima_nome_persona'.tr())),
                       );
                       return;
                     }
@@ -262,7 +263,7 @@ class _PersonePageState extends State<PersonePage> {
                     await _addPersona();
                   },
                   icon: const Icon(Icons.add),
-                  label: const Text("Aggiungi Persona"),
+                  label: Text('aggiungi_persona'.tr()),
                 ),
                 const SizedBox(height: 8),
                 AmicoSuggestionList(
@@ -275,7 +276,7 @@ class _PersonePageState extends State<PersonePage> {
                   },
                 ),
                 const SizedBox(height: 20),
-                Expanded(
+              Expanded(
                   child: isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : ListView.separated(
@@ -286,7 +287,7 @@ class _PersonePageState extends State<PersonePage> {
 
                             return ListTile(
                               title: Text(
-                                persona['persona'] ?? 'Senza nome',
+                                persona['persona'] ?? 'senza_nome'.tr(),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -294,7 +295,7 @@ class _PersonePageState extends State<PersonePage> {
                               subtitle: Text(
                                 persona['cellulare']?.isNotEmpty == true
                                     ? persona['cellulare']
-                                    : "Nessun cellulare",
+                                    : 'nessun_cellulare'.tr(),
                               ),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -368,7 +369,7 @@ class _PersonePageState extends State<PersonePage> {
   }
 
   /// Dialog per chiedere il numero se non è stato preso dai suggerimenti
- Future<Map<String, String>?> chiediNomeTelefono(
+  Future<Map<String, String>?> chiediNomeTelefono(
     BuildContext context,
     String nomeIniziale,
   ) async {
@@ -379,14 +380,14 @@ class _PersonePageState extends State<PersonePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Aggiungi Persona"),
+          title: Text('aggiungi_persona'.tr()),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nomeCtrl,
-                decoration: const InputDecoration(
-                  labelText: "Nome completo",
+                decoration: InputDecoration(
+                  labelText: 'nome_completo'.tr(),
                 ),
               ),
               const SizedBox(height: 12),
@@ -394,8 +395,8 @@ class _PersonePageState extends State<PersonePage> {
               TextField(
                 controller: telefonoCtrl,
                 keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  labelText: "Numero di telefono (es. +39...)",
+                decoration: InputDecoration(
+                  labelText: 'numero_telefono_hint'.tr(),
                 ),
               ),
             ],
@@ -403,7 +404,7 @@ class _PersonePageState extends State<PersonePage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Annulla"),
+              child: Text('annulla'.tr()),
             ),
             ElevatedButton(
               onPressed: () {
@@ -411,7 +412,7 @@ class _PersonePageState extends State<PersonePage> {
 
                 if (nome.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Inserisci il nome completo")),
+                    SnackBar(content: Text('inserisci_nome_completo'.tr())),
                   );
                   return;
                 }
@@ -425,7 +426,7 @@ class _PersonePageState extends State<PersonePage> {
                   "telefono": cellulare, // Restituisce il numero validato e pulito
                 });
               },
-              child: const Text("Conferma"),
+              child: Text('conferma'.tr()),
             ),
           ],
         );
